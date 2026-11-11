@@ -2,6 +2,32 @@
 
 Quantix OS is a Debian-based Linux distribution project with a clean white-and-blue desktop identity. It aims to combine an approachable desktop, a large software catalog, performance-conscious defaults, and a flexible live ISO workflow for a modern KDE-based system.
 
+#Quantix OS system requirements
+
+# Quantix OS system requirements
+
+## Minimum recommended hardware
+
+- Processor: 64-bit x86-64 compatible CPU
+- RAM: 4 GB minimum
+- Storage: 20 GB free disk space
+- Graphics: Vulkan-capable or OpenGL-capable GPU recommended
+- Network: Ethernet or Wi-Fi support
+
+## Recommended hardware
+
+- Processor: modern 64-bit CPU
+- RAM: 8 GB or more
+- Storage: 40 GB or more
+- Display: 1080p or better
+- Network: internet connection for package updates
+
+## Notes
+
+- Quantix OS is currently focused on x86-64 desktop systems.
+- Hardware compatibility will improve as the distro matures.
+- Use a VM to test the ISO before installing on real hardware.
+
 ## What this repository contains now
 
 - `index.html`: an interactive, browser-only desktop and app-catalog mockup.
