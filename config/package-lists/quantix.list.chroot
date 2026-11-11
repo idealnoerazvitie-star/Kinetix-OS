@@ -12,16 +12,42 @@ locales
 keyboard-configuration
 console-setup
 
-# Xfce desktop and login
-xfce4
-xfce4-goodies
-lightdm
-lightdm-gtk-greeter
-thunar
-thunar-volman
-xarchiver
-ristretto
-xfce4-notifyd
+# KDE/Neon-inspired workstation shell and applications
+plasma-desktop
+plasma-workspace
+plasma-nm
+plasma-pa
+powerdevil
+sddm
+sddm-theme-breeze
+breeze
+breeze-gtk
+breeze-icon-theme
+kvantum
+kde-standard
+kde-baseapps
+konsole
+dolphin
+dolphin-plugins
+discover
+plasma-discover-backend-flatpak
+kdeconnect
+kdeconnect-settings
+systemsettings
+kwrite
+kate
+okular
+gwenview
+spectacle
+ark
+kcalc
+kcharselect
+ksnapshot
+khelpcenter
+kdegraphics-thumbnailers
+kdenetwork-filesharing
+pulseaudio
+pavucontrol
 
 # Network, Bluetooth, audio, printing and firmware
 network-manager
@@ -32,7 +58,6 @@ blueman
 pipewire
 pipewire-audio
 wireplumber
-pavucontrol
 cups
 system-config-printer
 firmware-linux
@@ -74,8 +99,8 @@ wget
 git
 vim-tiny
 htop
- gparted
- timeshift
+gparted
+timeshift
 bleachbit
 p7zip-full
 unzip
@@ -86,4 +111,4 @@ synaptic
 xserver-xorg
 xinit
 x11-xserver-utils
- dbus-x11
+dbus-x11
