@@ -1,0 +1,9 @@
+NAME="Kinetix OS"
+PRETTY_NAME="Kinetix OS"
+ID=kinetix
+ID_LIKE=debian
+VERSION="1.0 (Trixie-based)"
+VERSION_ID="1.0"
+HOME_URL="https://github.com/idealnoerazvitie-star/Kinetix-OS"
+SUPPORT_URL="https://github.com/idealnoerazvitie-star/Kinetix-OS/issues"
+BUG_REPORT_URL="https://github.com/idealnoerazvitie-star/Kinetix-OS/issues"

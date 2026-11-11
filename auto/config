@@ -9,9 +9,9 @@ lb config \
   --archive-areas "main contrib non-free non-free-firmware" \
   --debian-installer live \
   --debian-installer-gui true \
-  --apt-recommends true \
-  --bootappend-live "boot=live components quiet splash username=quantix hostname=quantix" \
-  --iso-application "Quantix OS" \
-  --iso-publisher "Quantix OS Project" \
-  --iso-volume "QUANTIX_LIVE" \
-  --iso-preparer "Quantix OS build system"
+  --apt-recommends false \
+  --bootappend-live "boot=live components quiet splash username=kinetix hostname=kinetix" \
+  --iso-application "Kinetix OS" \
+  --iso-publisher "Kinetix OS Project" \
+  --iso-volume "KINETIX_LIVE" \
+  --iso-preparer "Kinetix OS build system"

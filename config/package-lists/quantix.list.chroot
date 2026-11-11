@@ -1,4 +1,4 @@
-# Quantix OS lightweight KDE desktop, live installer, and essential hardware support
+# Kinetix OS minimal KDE live desktop and installer
 live-boot
 live-config
 live-config-systemd
@@ -12,7 +12,7 @@ locales
 keyboard-configuration
 console-setup
 
-# Lean KDE desktop
+# KDE desktop essentials
 plasma-desktop
 plasma-workspace
 plasma-nm
@@ -27,32 +27,22 @@ dolphin
 discover
 systemsettings
 ark
-okular
-kcalc
 
-# Connectivity, audio, printing, firmware
+# Basic networking, audio, and firmware
 network-manager
 wpasupplicant
 bluez
 pipewire
 pipewire-audio
 wireplumber
-cups
 firmware-linux
 firmware-linux-nonfree
 firmware-misc-nonfree
 
-# Small everyday software set
+# Small default app/tool set
 firefox-esr
-libreoffice-writer
-libreoffice-calc
-vlc
-flatpak
-
-# Essential utilities and accessibility
 curl
 wget
-git
 vim-tiny
 htop
 orca
