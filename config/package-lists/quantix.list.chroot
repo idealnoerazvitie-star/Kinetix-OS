@@ -1,0 +1,89 @@
+# Quantix OS desktop, installer and hardware support
+live-boot
+live-config
+live-config-systemd
+live-installer
+live-installer-gtk
+linux-image-amd64
+systemd-sysv
+systemd-timesyncd
+sudo
+locales
+keyboard-configuration
+console-setup
+
+# Xfce desktop and login
+xfce4
+xfce4-goodies
+lightdm
+lightdm-gtk-greeter
+thunar
+thunar-volman
+xarchiver
+ristretto
+xfce4-notifyd
+
+# Network, Bluetooth, audio, printing and firmware
+network-manager
+network-manager-gnome
+wpasupplicant
+bluez
+blueman
+pipewire
+pipewire-audio
+wireplumber
+pavucontrol
+cups
+system-config-printer
+firmware-linux
+firmware-linux-nonfree
+firmware-misc-nonfree
+fwupd
+
+# Applications and package management
+firefox-esr
+libreoffice-writer
+libreoffice-calc
+libreoffice-impress
+vlc
+gimp
+inkscape
+thunderbird
+filezilla
+flatpak
+packagekit
+packagekit-tools
+gnome-software
+gnome-software-plugin-flatpak
+
+# Raspberry Pi / maker / education inspired tools
+thonny
+python3-gpiozero
+arduino
+scratch
+
+# Administration, accessibility, backup, development and daily utilities
+orca
+onboard
+fonts-noto
+fonts-noto-color-emoji
+fonts-liberation
+fonts-cantarell
+curl
+wget
+git
+vim-tiny
+htop
+ gparted
+ timeshift
+bleachbit
+p7zip-full
+unzip
+rsync
+synaptic
+
+# Live desktop essentials
+xserver-xorg
+xinit
+x11-xserver-utils
+ dbus-x11
