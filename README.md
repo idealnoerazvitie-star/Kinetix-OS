@@ -1,10 +1,8 @@
-# Quantix OS — a real Linux distribution project
+# Kinetix OS — a real Linux distribution project
 
-Quantix OS is a Debian-based Linux distribution project with a clean white-and-blue desktop identity. It aims to combine an approachable desktop, a large software catalog, performance-conscious defaults, and a flexible live ISO workflow for a modern KDE-based system.
+Kinetix OS is a Debian-based Linux distribution project with a clean white-and-blue desktop identity. It aims to combine an approachable desktop, a large software catalog, performance-conscious defaults, and a flexible live ISO workflow for a modern KDE-based system.
 
-#Quantix OS system requirements
-
-# Quantix OS system requirements
+# Kinetix OS system requirements
 
 ## Minimum recommended hardware
 
@@ -24,7 +22,7 @@ Quantix OS is a Debian-based Linux distribution project with a clean white-and-b
 
 ## Notes
 
-- Quantix OS is currently focused on x86-64 desktop systems.
+- Kinetix OS is currently focused on x86-64 desktop systems.
 - Hardware compatibility will improve as the distro matures.
 - Use a VM to test the ISO before installing on real hardware.
 
@@ -36,7 +34,7 @@ Quantix OS is a Debian-based Linux distribution project with a clean white-and-b
 
 ## Neon OS-inspired additions
 
-The Quantix project now includes a KDE/Neon-inspired feature layer to blend the polished desktop experience of KDE Neon with a cleaner Quantix visual identity:
+The Kinetix project now includes a KDE/Neon-inspired feature layer to blend the polished desktop experience of KDE Neon with a cleaner Kinetix visual identity:
 
 - KDE Plasma desktop, SDDM login, Breeze theme, and Qt/KDE app ecosystem
 - Dolphin file manager, Konsole terminal, Discover software center, System Settings, and KDE Connect
@@ -44,7 +42,7 @@ The Quantix project now includes a KDE/Neon-inspired feature layer to blend the 
 - White/blue Quantix visual scheme layered on top of Plasma's modern desktop polish
 - Qt apps such as Okular, KWrite, Gwenview, Spectacle, and KCalc for daily productivity
 
-This keeps the OS approachable and modern while preserving the Quantix identity.
+This keeps the OS approachable and modern while preserving the Kinetix identity.
 
 ## Roadmap and planned feature expansion
 
@@ -106,7 +104,7 @@ The project is now planned to include optional bundle definitions. See [docs/app
 - Gaming bundle
 - Accessibility bundle
 
-Additionally, a first-boot bootstrapping helper is provided in [scripts/quantix-firstboot.sh](scripts/quantix-firstboot.sh).
+Additionally, a first-boot bootstrapping helper is provided in [scripts/quantix-firstboot.sh](scripts/kinetix-firstboot.sh).
 
 ## Current limitations
 
