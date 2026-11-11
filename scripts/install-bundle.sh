@@ -1,76 +1,54 @@
 #!/usr/bin/env bash
 set -eu
 
-# Quantix OS bundle installer
-# Usage:
-#   ./scripts/install-bundle.sh productivity
-#   ./scripts/install-bundle.sh developer
-#   ./scripts/install-bundle.sh all
+# Install an optional Quantix software bundle on Debian-based systems.
+# Usage: ./scripts/install-bundle.sh [productivity|developer|maker|security-learning|gaming|accessibility]
 
-BUNDLE="${1:-default}"
+BUNDLE="${1:-productivity}"
 
 if ! command -v apt-get >/dev/null 2>&1; then
-  echo "This script is intended for Debian-based systems."
+  echo "This script requires a Debian-based system with apt-get." >&2
   exit 1
 fi
 
 case "$BUNDLE" in
   productivity)
-    PACKAGES=(
-      firefox-esr thunderbird libreoffice-writer libreoffice-calc libreoffice-impress
-      vlc okular gimp inkscape filezilla keepassxc
-    )
+    PACKAGES=(firefox-esr thunderbird libreoffice-writer libreoffice-calc libreoffice-impress vlc okular gimp inkscape filezilla)
     ;;
   developer)
-    PACKAGES=(
-      git build-essential curl wget jq ripgrep fd-find htop vim neovim python3 python3-pip
-      nodejs npm docker.io docker-compose-plugin gdb
-    )
+    PACKAGES=(git build-essential curl wget jq ripgrep fd-find htop vim neovim python3 python3-pip nodejs npm gdb)
     ;;
   maker)
-    PACKAGES=(
-      thonny python3-gpiozero arduino scratch gparted
-    )
+    PACKAGES=(thonny python3-gpiozero arduino scratch)
     ;;
   security-learning)
-    PACKAGES=(
-      nmap wireshark tcpdump aircrack-ng john hashcat binwalk gdb testdisk sqlmap
-    )
+    # Defensive system auditing and network visibility tools. Use only on systems
+    # and networks you own or are explicitly authorized to assess.
+    PACKAGES=(lynis clamav ufw wireshark tcpdump nmap)
     ;;
   gaming)
-    PACKAGES=(
-      steam lutris retroarch wine gamemode
-    )
+    PACKAGES=(lutris retroarch gamemode)
     ;;
   accessibility)
-    PACKAGES=(
-      orca onboard kdeaccessibility espeak-ng brltty
-    )
-    ;;
-  all)
-    PACKAGES=(
-      firefox-esr thunderbird libreoffice-writer libreoffice-calc libreoffice-impress
-      vlc okular gimp inkscape filezilla keepassxc git build-essential curl wget jq
-      ripgrep fd-find htop vim neovim python3 python3-pip nodejs npm docker.io
-      docker-compose-plugin gdb thonny python3-gpiozero arduino scratch gparted
-      nmap wireshark tcpdump aircrack-ng john hashcat binwalk testdisk sqlmap steam
-      lutris retroarch wine gamemode orca onboard kdeaccessibility espeak-ng brltty
-    )
-    ;;
-  default)
-    PACKAGES=(
-      firefox-esr thunderbird libreoffice-writer libreoffice-calc libreoffice-impress
-      vlc okular gimp inkscape konsole dolphin
-    )
+    PACKAGES=(orca onboard espeak-ng)
     ;;
   *)
-    echo "Unknown bundle: $BUNDLE"
-    echo "Valid values: productivity, developer, maker, security-learning, gaming, accessibility, all"
-    exit 1
+    echo "Unknown bundle: $BUNDLE" >&2
+    echo "Valid bundles: productivity, developer, maker, security-learning, gaming, accessibility" >&2
+    exit 2
     ;;
 esac
 
-sudo apt-get update
-sudo apt-get install -y "${PACKAGES[@]}"
+if [[ "${EUID}" -eq 0 ]]; then
+  APT=(apt-get)
+else
+  if ! command -v sudo >/dev/null 2>&1; then
+    echo "Please run as root or install sudo." >&2
+    exit 1
+  fi
+  APT=(sudo apt-get)
+fi
 
-printf '\nBundle "%s" installation completed.\n' "$BUNDLE"
+"${APT[@]}" update
+"${APT[@]}" install -y --no-install-recommends "${PACKAGES[@]}"
+printf '\nInstalled optional Quantix bundle: %s\n' "$BUNDLE"

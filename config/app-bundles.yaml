@@ -1,72 +1,19 @@
 bundles:
   productivity:
-    description: "Daily desktop work and general productivity"
-    packages:
-      - firefox-esr
-      - thunderbird
-      - libreoffice-writer
-      - libreoffice-calc
-      - libreoffice-impress
-      - vlc
-      - okular
-      - gimp
-      - inkscape
-      - filezilla
-      - keepassxc
+    description: "Optional daily-work applications; not installed in the lightweight base image"
+    packages: [thunderbird, libreoffice-impress, gimp, inkscape, filezilla]
   developer:
     description: "Programming and command-line tools"
-    packages:
-      - git
-      - build-essential
-      - curl
-      - wget
-      - jq
-      - ripgrep
-      - fd-find
-      - htop
-      - vim
-      - neovim
-      - python3
-      - python3-pip
-      - nodejs
-      - npm
-      - docker.io
-      - docker-compose-plugin
-      - gdb
+    packages: [build-essential, jq, ripgrep, fd-find, neovim, python3, python3-pip, nodejs, npm, gdb]
   maker:
-    description: "Electronics, coding, and learning"
-    packages:
-      - thonny
-      - python3-gpiozero
-      - arduino
-      - scratch
-      - gparted
+    description: "Electronics, coding, and learning tools"
+    packages: [thonny, python3-gpiozero, arduino, scratch]
   security-learning:
-    description: "Network and security education"
-    packages:
-      - nmap
-      - wireshark
-      - tcpdump
-      - aircrack-ng
-      - john
-      - hashcat
-      - binwalk
-      - gdb
-      - testdisk
-      - sqlmap
+    description: "Optional defensive auditing and network-visibility tools; use only with authorization"
+    packages: [lynis, clamav, ufw, wireshark, tcpdump, nmap]
   gaming:
-    description: "Games and entertainment"
-    packages:
-      - steam
-      - lutris
-      - retroarch
-      - wine
-      - gamemode
+    description: "Optional gaming tools"
+    packages: [lutris, retroarch, gamemode]
   accessibility:
-    description: "Assistive technology and accessibility"
-    packages:
-      - orca
-      - onboard
-      - kdeaccessibility
-      - espeak-ng
-      - brltty
+    description: "Optional assistive tools; Orca is included in the base image"
+    packages: [onboard, espeak-ng]

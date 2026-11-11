@@ -1,4 +1,4 @@
-# Quantix OS desktop, installer and hardware support
+# Quantix OS lightweight KDE desktop, live installer, and essential hardware support
 live-boot
 live-config
 live-config-systemd
@@ -12,7 +12,7 @@ locales
 keyboard-configuration
 console-setup
 
-# KDE/Neon-inspired workstation shell and applications
+# Lean KDE desktop
 plasma-desktop
 plasma-workspace
 plasma-nm
@@ -21,91 +21,43 @@ powerdevil
 sddm
 sddm-theme-breeze
 breeze
-breeze-gtk
 breeze-icon-theme
-kvantum
-kde-standard
-kde-baseapps
 konsole
 dolphin
-dolphin-plugins
 discover
-plasma-discover-backend-flatpak
-kdeconnect
-kdeconnect-settings
 systemsettings
-kwrite
-kate
-okular
-gwenview
-spectacle
 ark
+okular
 kcalc
-kcharselect
-ksnapshot
-khelpcenter
-kdegraphics-thumbnailers
-kdenetwork-filesharing
-pulseaudio
-pavucontrol
 
-# Network, Bluetooth, audio, printing and firmware
+# Connectivity, audio, printing, firmware
 network-manager
-network-manager-gnome
 wpasupplicant
 bluez
-blueman
 pipewire
 pipewire-audio
 wireplumber
 cups
-system-config-printer
 firmware-linux
 firmware-linux-nonfree
 firmware-misc-nonfree
-fwupd
 
-# Applications and package management
+# Small everyday software set
 firefox-esr
 libreoffice-writer
 libreoffice-calc
-libreoffice-impress
 vlc
-gimp
-inkscape
-thunderbird
-filezilla
 flatpak
-packagekit
-packagekit-tools
-gnome-software
-gnome-software-plugin-flatpak
 
-# Raspberry Pi / maker / education inspired tools
-thonny
-python3-gpiozero
-arduino
-scratch
-
-# Administration, accessibility, backup, development and daily utilities
-orca
-onboard
-fonts-noto
-fonts-noto-color-emoji
-fonts-liberation
-fonts-cantarell
+# Essential utilities and accessibility
 curl
 wget
 git
 vim-tiny
 htop
-gparted
-timeshift
-bleachbit
-p7zip-full
-unzip
-rsync
-synaptic
+orca
+fonts-noto
+fonts-noto-color-emoji
 
 # Live desktop essentials
 xserver-xorg
