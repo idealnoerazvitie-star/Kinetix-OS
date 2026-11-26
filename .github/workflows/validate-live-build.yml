@@ -1,36 +1,26 @@
-name: Validate live-build config
-
-# This replaces an earlier, unrelated Jekyll-site workflow that this
-# repository never actually used (there is no Jekyll site here).
-#
-# Two real checks for this project:
-#  1. Every package named in the package lists / app-bundles.yaml
-#     actually exists in Debian trixie's repositories, so `lb build`
-#     won't fail partway through on a nonexistent package name.
-#  2. `auto/config` (the `lb config` invocation) is at least syntactically
-#     valid shell and runs without error.
-#
-# This does NOT run a full `lb build` — building a bootable ISO needs
-# way more time, disk and bandwidth than a normal CI job should use.
-# Treat a green run here as "the config won't immediately fail," not as
-# "the ISO boots" — only an actual `lb build` + boot test proves that.
+name: Validate Kinetix OS
 
 on:
   push:
     branches: ["main"]
     paths:
-      - "config/package-lists/**"
-      - "config/app-bundles.yaml"
+      - "config/**"
       - "auto/config"
+      - "scripts/**"
+      - "index.html"
       - ".github/workflows/validate-live-build.yml"
   pull_request:
     branches: ["main"]
     paths:
-      - "config/package-lists/**"
-      - "config/app-bundles.yaml"
+      - "config/**"
       - "auto/config"
+      - "scripts/**"
+      - "index.html"
       - ".github/workflows/validate-live-build.yml"
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   validate-packages:
@@ -39,11 +29,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Enable contrib/non-free/non-free-firmware
+      - name: Enable contrib and non-free repositories
         run: |
           set -eu
-          # Debian's official image may use either the modern deb822
-          # *.sources format or the classic one-line sources.list.
           if ls /etc/apt/sources.list.d/*.sources >/dev/null 2>&1; then
             sed -i 's/^Components: main$/Components: main contrib non-free non-free-firmware/' /etc/apt/sources.list.d/*.sources
           fi
@@ -52,40 +40,50 @@ jobs:
           fi
           apt-get update
 
-      - name: Collect package names used by this repo
+      - name: Collect package names
         run: |
           set -eu
-          grep -hv '^[[:space:]]*#' config/package-lists/*.chroot | grep -v '^[[:space:]]*$' > /tmp/pkgs.txt
+          grep -hv '^[[:space:]]*#' config/package-lists/*.chroot | grep -v '^[[:space:]]*$' > /tmp/packages.txt
           grep -E '^[[:space:]]*-[[:space:]]+[A-Za-z0-9]' config/app-bundles.yaml \
-            | sed -E 's/^[[:space:]]*-[[:space:]]*//' >> /tmp/pkgs.txt
-          sort -u -o /tmp/pkgs.txt /tmp/pkgs.txt
-          echo "Checking $(wc -l < /tmp/pkgs.txt) distinct package names:"
-          cat /tmp/pkgs.txt
+            | sed -E 's/^[[:space:]]*-[[:space:]]*//' >> /tmp/packages.txt
+          sort -u -o /tmp/packages.txt /tmp/packages.txt
+          echo "Checking $(wc -l < /tmp/packages.txt) package names."
 
-      - name: Verify every package exists in trixie's repositories
+      - name: Verify package availability
         run: |
-          set -u
+          set -eu
           missing=0
-          while IFS= read -r pkg; do
-            [ -z "$pkg" ] && continue
-            if ! apt-cache show "$pkg" >/dev/null 2>&1; then
-              echo "::error::Package not found in Debian trixie: $pkg"
+          while IFS= read -r package; do
+            [ -n "$package" ] || continue
+            if ! apt-cache show "$package" >/dev/null 2>&1; then
+              echo "::error::Package not found in Debian trixie: $package"
               missing=1
             fi
-          done < /tmp/pkgs.txt
+          done < /tmp/packages.txt
           exit "$missing"
 
-  validate-lb-config:
+  validate-build-configuration:
     runs-on: ubuntu-latest
     container: debian:trixie
     steps:
       - uses: actions/checkout@v7
-
       - name: Install live-build
         run: |
-          set -eu
           apt-get update
           apt-get install -y --no-install-recommends live-build
-
-      - name: Run auto/config (lb config only — no image build)
+      - name: Validate live-build configuration
         run: sh auto/config
+
+  validate-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check shell syntax and mirrored first-login scripts
+        run: |
+          set -eu
+          sh -n auto/config
+          sh -n scripts/build-iso.sh
+          bash -n scripts/kinetix-firstboot.sh
+          bash -n config/includes.chroot/usr/local/bin/kinetix-firstboot.sh
+          cmp scripts/kinetix-firstboot.sh config/includes.chroot/usr/local/bin/kinetix-firstboot.sh
+          git diff --check
