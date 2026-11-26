@@ -12,18 +12,33 @@ if [ "$(id -u)" -ne 0 ]; then
   exec sudo "$0" "$@"
 fi
 
-if ! command -v lb >/dev/null 2>&1; then
-  echo "live-build is required. On Debian: apt update && apt install live-build debootstrap xorriso squashfs-tools" >&2
+if [ ! -r /etc/debian_version ]; then
+  echo "Kinetix ISO builds must run in Debian or a Debian-based build environment." >&2
   exit 1
 fi
 
-if [ ! -f /etc/debian_version ]; then
-  echo "Build the Kinetix ISO on Debian (or a Debian environment)." >&2
+missing=""
+for tool in lb debootstrap xorriso mksquashfs; do
+  if ! command -v "$tool" >/dev/null 2>&1; then
+    missing="$missing $tool"
+  fi
+done
+if [ -n "$missing" ]; then
+  echo "Missing build tools:$missing" >&2
+  echo "On Debian, install them with:" >&2
+  echo "  sudo apt update && sudo apt install live-build debootstrap xorriso squashfs-tools" >&2
   exit 1
 fi
 
-# Use the checked-in live-build configuration, then build the hybrid ISO.
+if [ ! -f auto/config ] || [ ! -f config/package-lists/kinetix.list.chroot ]; then
+  echo "Repository build configuration is incomplete; run this script from a complete Kinetix OS checkout." >&2
+  exit 1
+fi
+
+echo "Configuring Debian Live..."
 sh auto/config
+
+echo "Building Kinetix OS ISO (this can take a long time and use several GB of disk space)..."
 lb build
 
-printf '\nBuild complete. Look for the generated Kinetix ISO in: %s\n' "$ROOT"
+printf '\\nBuild complete. Check the repository directory for the generated Kinetix ISO.\\n'
