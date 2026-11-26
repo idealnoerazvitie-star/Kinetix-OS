@@ -2,8 +2,6 @@
 live-boot
 live-config
 live-config-systemd
-live-installer
-live-installer-gtk
 linux-image-amd64
 systemd-sysv
 systemd-timesyncd
@@ -21,9 +19,9 @@ powerdevil
 sddm
 sddm-theme-breeze
 breeze
-breeze-gtk
+breeze-gtk-theme
 breeze-icon-theme
-kvantum
+qt-style-kvantum
 kde-standard
 kde-baseapps
 konsole
@@ -32,13 +30,12 @@ dolphin-plugins
 discover
 plasma-discover-backend-flatpak
 kdeconnect
-kdeconnect-settings
 systemsettings
 kwrite
 kate
 okular
 gwenview
-spectacle
+kde-spectacle
 ark
 kcalc
 kcharselect
