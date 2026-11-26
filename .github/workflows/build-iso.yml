@@ -39,7 +39,7 @@ jobs:
           apt-get update
           DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
             live-build debootstrap xorriso squashfs-tools \
-            qemu-system-x86 qemu-utils socat python3-pil tesseract-ocr \
+            qemu-system-x86 qemu-utils socat procps python3-pil tesseract-ocr \
             ca-certificates
 
       - name: Build bootable hybrid ISO
