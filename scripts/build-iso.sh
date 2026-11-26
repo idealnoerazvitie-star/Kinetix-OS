@@ -41,4 +41,4 @@ sh auto/config
 echo "Building Kinetix OS ISO (this can take a long time and use several GB of disk space)..."
 lb build
 
-printf '\\nBuild complete. Check the repository directory for the generated Kinetix ISO.\\n'
+printf '\nBuild complete. Check the repository directory for the generated Kinetix ISO.\n'
