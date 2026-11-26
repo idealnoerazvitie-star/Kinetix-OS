@@ -4,6 +4,8 @@ set -Eeuo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 bash -n "$ROOT/scripts/verify-iso.sh"
 bash -n "$ROOT/scripts/hardware-report.sh"
+git -C "$ROOT" check-ignore -q dist/Kinetix-OS-amd64.iso
+git -C "$ROOT" check-ignore -q binary/live-image-amd64.hybrid.iso
 
 set +e
 bash "$ROOT/scripts/verify-iso.sh" >/dev/null 2>&1
