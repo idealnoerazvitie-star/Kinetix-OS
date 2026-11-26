@@ -1,0 +1,26 @@
+# Debian Live Build output
+/binary/
+/chroot/
+/cache/
+/binary.*
+/chroot.*
+/cache.*
+/*.iso
+/*.hybrid.iso
+/live-image-*
+/filesystem.manifest*
+/filesystem.packages
+/*.contents
+/*.packages
+
+# Generated live-build configuration (keep tracked config sources)
+/config/binary/
+/config/chroot/
+/config/bootstrap/
+/config/source/
+/config/archives/
+/config/*.conf
+
+# Local verification and release artifacts
+/dist/
+*.log
