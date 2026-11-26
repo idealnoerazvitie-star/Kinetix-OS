@@ -31,7 +31,9 @@ Kinetix OS is a Debian-based Linux distribution project with a clean white-and-b
 - `index.html`: an interactive, browser-only desktop and app-catalog mockup.
 - `auto/config` and `config/`: a Debian Live build configuration for an **amd64 x86-64 live/install image**, including a Debian installer and a curated package set.
 - `config/includes.chroot/`: files copied verbatim into the built system — the first-boot script at `/usr/local/bin/kinetix-firstboot.sh` and an XDG autostart entry (via `/etc/skel`) that runs it once per new user.
-- `scripts/build-iso.sh`: a helper to build the configured ISO on Debian.\n- `scripts/verify-iso.sh`: validates the ISO boot catalog and boots it in QEMU, checking for a Debian/Kinetix login console.\n- `scripts/hardware-report.sh`: collects a read-only hardware and driver inventory for physical-device testing.
+- `scripts/build-iso.sh`: a helper to build the configured ISO on Debian.
+- `scripts/verify-iso.sh`: validates the ISO boot catalog and boots it in QEMU, checking for a Debian/Kinetix login console.
+- `scripts/hardware-report.sh`: collects a read-only hardware and driver inventory for physical-device testing.
 
 ## Neon OS-inspired additions
 
@@ -90,7 +92,7 @@ This borrows general ideas from other Linux distributions; it does not bundle th
 
 ## App catalog and security
 
-The HTML catalog is a discovery/demo UI: its Add buttons only save a local preview state. The distro image includes normal Debian software management, but this project does **not** yet provide its own packaged app-store ecosystem or a signed release pipeline.
+The HTML catalog is a discovery/demo UI: its Add buttons only save a local preview state. The distro image includes normal Debian software management, but this project does **not** yet provide its own packaged app-store ecosystem or cryptographically signed ISO releases.
 
 A vulnerability-reporting process is now published in [SECURITY.md](SECURITY.md). Tagged `v*` releases are published automatically only after the ISO build and QEMU boot test pass; the release includes a SHA-256 checksum. This checksum detects accidental corruption but is not a cryptographic publisher signature. Physical hardware, installer, upgrade, licensing, and security qualification remain release gates; see [docs/hardware-testing.md](docs/hardware-testing.md).
 
@@ -111,4 +113,4 @@ Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-
 
 This is an early distro scaffold, not a fully mature Mint/CachyOS/KDE Neon/Raspberry Pi OS replacement. It currently targets x86-64 only; it has no custom kernel, ARM image, custom installer branding, or full hardware support matrix yet. The repository is best understood as a Debian live-build foundation plus an interactive desktop concept and expanded roadmap.
 
-The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail. A GitHub Actions workflow ([`.github/workflows/validate-live-build.yml`](.github/workflows/validate-live-build.yml)) checks Debian package availability, simulates APT dependency resolution for the complete base package set and each optional bundle, runs `lb config`, validates shell syntax, confirms the two first-login script copies stay identical, and runs regression tests for first-login behavior. It still stops short of a full `lb build` and VM boot test; no actual full ISO build has been run against this config. The promised "white/blue Kinetix visual identity" (custom wallpaper, SDDM/login theme artwork, Plasma look-and-feel package) is still only described in prose — no theme assets exist in the repo yet.
+The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail. The GitHub Actions workflows validate package availability and dependency resolution, check the Debian Live configuration and shell scripts, then build the full hybrid ISO and attempt a QEMU boot to a recognizable login console. The ISO and diagnostic evidence are uploaded as a 14-day artifact. Tagged `v*` releases are published only after that build and boot check pass. A SHA-256 checksum is included, but it is not a publisher signature. These automated checks still do not certify physical hardware, installer partitioning, upgrades, or long-term operation. See [docs/hardware-testing.md](docs/hardware-testing.md) for the manual qualification plan. The promised white/blue Kinetix visual identity (custom wallpaper, SDDM/login theme artwork, Plasma look-and-feel package) remains future work.
