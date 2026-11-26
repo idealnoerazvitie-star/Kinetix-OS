@@ -31,7 +31,7 @@ Kinetix OS is a Debian-based Linux distribution project with a clean white-and-b
 - `index.html`: an interactive, browser-only desktop and app-catalog mockup.
 - `auto/config` and `config/`: a Debian Live build configuration for an **amd64 x86-64 live/install image**, including a Debian installer and a curated package set.
 - `config/includes.chroot/`: files copied verbatim into the built system — the first-boot script at `/usr/local/bin/kinetix-firstboot.sh` and an XDG autostart entry (via `/etc/skel`) that runs it once per new user.
-- `scripts/build-iso.sh`: a helper to build the configured ISO on Debian.
+- `scripts/build-iso.sh`: a helper to build the configured ISO on Debian.\n- `scripts/verify-iso.sh`: validates the ISO boot catalog and boots it in QEMU, checking for a Debian/Kinetix login console.\n- `scripts/hardware-report.sh`: collects a read-only hardware and driver inventory for physical-device testing.
 
 ## Neon OS-inspired additions
 
@@ -75,7 +75,7 @@ Clone this repository and run:
 sudo ./scripts/build-iso.sh
 ```
 
-The build downloads packages from the configured Debian repositories and can take a while. The resulting hybrid ISO should appear in the repository directory. Test it first in QEMU, GNOME Boxes, or another VM before using it on real hardware.
+The build downloads packages from the configured Debian repositories and can take a while. The resulting hybrid ISO should appear in the repository directory. To verify it locally, install `qemu-system-x86`, `qemu-utils`, `xorriso`, `socat`, `python3-pil`, and `tesseract-ocr`, then run `bash scripts/verify-iso.sh path/to/image.iso`. The `Build and boot-test Kinetix ISO` GitHub Actions workflow performs the full build, QEMU boot smoke test, and SHA-256 generation on pull requests and pushes to `main`; it also supports manual runs. The resulting ISO and diagnostic evidence are uploaded as a workflow artifact for 14 days.
 
 ## Included distro building blocks
 
@@ -92,7 +92,7 @@ This borrows general ideas from other Linux distributions; it does not bundle th
 
 The HTML catalog is a discovery/demo UI: its Add buttons only save a local preview state. The distro image includes normal Debian software management, but this project does **not** yet provide its own packaged app-store ecosystem or a signed release pipeline.
 
-A vulnerability-reporting process is now published in [SECURITY.md](SECURITY.md). Before publishing a public ISO, still add a release pipeline, verify package and ISO checksums/signatures, document supported hardware, test installer and upgrade flows, and check all bundled software for licensing and security review.
+A vulnerability-reporting process is now published in [SECURITY.md](SECURITY.md). Tagged `v*` releases are published automatically only after the ISO build and QEMU boot test pass; the release includes a SHA-256 checksum. This checksum detects accidental corruption but is not a cryptographic publisher signature. Physical hardware, installer, upgrade, licensing, and security qualification remain release gates; see [docs/hardware-testing.md](docs/hardware-testing.md).
 
 ## Bundles included in the feature plan
 
