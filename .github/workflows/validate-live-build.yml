@@ -86,4 +86,5 @@ jobs:
           bash -n scripts/kinetix-firstboot.sh
           bash -n config/includes.chroot/usr/local/bin/kinetix-firstboot.sh
           cmp scripts/kinetix-firstboot.sh config/includes.chroot/usr/local/bin/kinetix-firstboot.sh
+          bash tests/test-firstboot.sh
           git diff --check
