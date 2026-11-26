@@ -55,4 +55,4 @@ fi
 
 # Mark completion only after all required setup steps have succeeded.
 touch "$STATE_FILE"
-printf 'Kinetix first-login setup completed.\\n'
+printf 'Kinetix first-login setup completed.\n'
