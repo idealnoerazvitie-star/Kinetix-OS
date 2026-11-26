@@ -87,12 +87,14 @@ Description: gaming and entertainment on a desktop Linux environment.
 
 Packages:
 
-- steam
+- steam-installer
 - lutris
 - retroarch
 - wine
 - gamemode
 - protontricks
+
+The Steam package is named `steam-installer` for amd64 in Debian Trixie. The `steam` package is only a transitional i386 package.
 
 ## 6. Accessibility bundle
 
