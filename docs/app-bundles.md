@@ -94,7 +94,15 @@ Packages:
 - gamemode
 - protontricks
 
-The Steam package is named `steam-installer` for amd64 in Debian Trixie. The `steam` package is only a transitional i386 package.
+The Steam package is named `steam-installer` for amd64 in Debian Trixie. Steam requires 32-bit compatibility libraries, so enable the i386 architecture before installing it:
+
+```sh
+sudo dpkg --add-architecture i386
+sudo apt update
+sudo apt install steam-installer
+```
+
+Make sure the system has suitable graphics drivers and Vulkan support for the GPU before expecting modern games to run well.
 
 ## 6. Accessibility bundle
 
@@ -123,4 +131,4 @@ Where Debian package availability is limited or the app is better served via Fla
 
 ## Deployment note
 
-These bundles are not meant to be forced onto every user. They are best treated as optional preset profiles or installation groups, while the default Kinetix install remains lightweight and usable by default.
+These bundles are package suggestions, not an implemented graphical installer. They are not forced onto every user; the default Kinetix install remains a separate, lighter package set. Dependency checks in CI simulate installation of each bundle against Debian Trixie.
