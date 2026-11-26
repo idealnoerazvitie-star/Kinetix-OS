@@ -16,7 +16,7 @@ run() {
   section "$label"
   if command -v "$1" >/dev/null 2>&1; then
     local status=0
-    "$@" 2>&1 | sed -E 's/([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}/[REDACTED-MAC]/g; s/^([[:space:]]*Serial Number:).*/\\1 [REDACTED]/I' || status=$?
+    "$@" 2>&1 | sed -E 's/([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}/[REDACTED-MAC]/g; s/^([[:space:]]*Serial Number:).*/\1 [REDACTED]/I' || status=$?
     if [[ "$status" -ne 0 ]]; then printf '[command exited with status %s]\n' "$status"; fi
   else
     printf '[not installed: %s]\n' "$1"
