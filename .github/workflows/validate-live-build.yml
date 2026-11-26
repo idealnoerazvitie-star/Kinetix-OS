@@ -36,7 +36,7 @@ jobs:
             sed -i 's/^Components: main$/Components: main contrib non-free non-free-firmware/' /etc/apt/sources.list.d/*.sources
           fi
           if [ -f /etc/apt/sources.list ]; then
-            sed -i -E 's/^(deb(-src)? [^ ]+ [^ ]+ main)$/\\1 contrib non-free non-free-firmware/' /etc/apt/sources.list
+            sed -i -E 's/^(deb(-src)? [^ ]+ [^ ]+ main)$/\1 contrib non-free non-free-firmware/' /etc/apt/sources.list
           fi
           apt-get update
 
@@ -44,7 +44,7 @@ jobs:
         run: |
           set -eu
           grep -hv '^[[:space:]]*#' config/package-lists/*.chroot | grep -v '^[[:space:]]*$' > /tmp/packages.txt
-          grep -E '^[[:space:]]*-[[:space:]]+[A-Za-z0-9]' config/app-bundles.yaml \\
+          grep -E '^[[:space:]]*-[[:space:]]+[A-Za-z0-9]' config/app-bundles.yaml \
             | sed -E 's/^[[:space:]]*-[[:space:]]*//' >> /tmp/packages.txt
           sort -u -o /tmp/packages.txt /tmp/packages.txt
           echo "Checking $(wc -l < /tmp/packages.txt) package names."
