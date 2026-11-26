@@ -7,6 +7,8 @@ if [[ $# -ne 1 ]]; then
 fi
 
 ISO="$(realpath "$1")"
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
 if [[ ! -s "$ISO" ]]; then
   echo "ISO does not exist or is empty: $ISO" >&2
   exit 1
@@ -22,6 +24,8 @@ done
 WORK="$(mktemp -d)"
 QEMU_PID=""
 cleanup() {
+  if [[ -f "$WORK/qemu.log" ]]; then cp "$WORK/qemu.log" dist/qemu.log 2>/dev/null || true; fi
+  if [[ -f "$WORK/serial.log" ]]; then cp "$WORK/serial.log" dist/qemu-serial.log 2>/dev/null || true; fi
   if [[ -n "$QEMU_PID" ]] && kill -0 "$QEMU_PID" 2>/dev/null; then
     kill "$QEMU_PID" 2>/dev/null || true
     wait "$QEMU_PID" 2>/dev/null || true
@@ -74,12 +78,12 @@ done
 # machine-readable login prompt rather than relying on a graphical splash.
 echo "Waiting up to 240 seconds for Debian Live to start..."
 for _ in $(seq 1 24); do
-  kill -0 "$QEMU_PID" 2>/dev/null || {
+  if ! kill -0 "$QEMU_PID" 2>/dev/null || [[ "$(ps -o stat= -p "$QEMU_PID" 2>/dev/null | tr -d ' ')" == Z* ]]; then
     echo "QEMU exited before the boot smoke test completed." >&2
     cat "$WORK/qemu.log" >&2
     cat "$WORK/serial.log" >&2 || true
     exit 1
-  }
+  fi
   sleep 10
 done
 
