@@ -37,7 +37,7 @@ sudo apt install pciutils usbutils rfkill network-manager bluez \
 bash scripts/hardware-report.sh ~/kinetix-hardware-report.txt
 ```
 
-The report script is read-only. It records available device and service information; a missing utility is reported as unavailable, not treated as proof that the hardware is unsupported.
+The report script is read-only. It redacts standard MAC-address and firmware serial-number fields automatically. Still review the output before sharing it, because host-specific names or unusual vendor fields may remain. A missing utility is reported as unavailable, not treated as proof that the hardware is unsupported.
 
 ## Installer and installed-system checks
 
