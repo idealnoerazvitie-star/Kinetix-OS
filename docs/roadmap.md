@@ -132,4 +132,15 @@ The base package list (`config/package-lists/kinetix.list.chroot`) and `config/a
 
 Also dropped `gnome-software` and `gnome-software-plugin-flatpak` from the base image: they exist in trixie but duplicate what KDE Discover + `plasma-discover-backend-flatpak` already provide, and pulling in the GNOME Software stack on a KDE-first spin works against the "clean KDE identity" goal. `code` (VS Code) was dropped from the developer bundle doc since it is not packaged in Debian's own repositories at all; it stays as a Flatpak recommendation.
 
-This audit was done by cross-checking Debian's package tracker and `packages.debian.org`, not by a real `lb build` run — see "Current limitations" below.
+This audit was done by cross-checking Debian's package tracker and `packages.debian.org`, not by a real `lb build` run — see [README.md § Current limitations](../README.md#current-limitations).
+
+## Continuous validation
+
+`.github/workflows/validate-live-build.yml` now runs this same kind of check automatically on every push/PR that touches the package lists, `config/app-bundles.yaml`, or `auto/config`:
+
+- **validate-packages** — installs nothing from this repo; it just runs `apt-cache show` for every package name against a real `debian:trixie` container (with contrib/non-free/non-free-firmware enabled, matching `auto/config`'s `--archive-areas`) and fails the run if any package name doesn't exist. This is the automated version of the manual audit above, so a future mistake like the `ksnapshot`/`scratch` ones gets caught before merge instead of during a real `lb build`.
+- **validate-lb-config** — installs `live-build` in the same container and runs `sh auto/config` (i.e. `lb config`) to catch syntax errors or invalid `lb config` flags.
+
+Neither job runs `lb build` itself — a full ISO build needs far more time, disk and bandwidth than is reasonable for a per-push CI check. A green run here means "the config is internally consistent and every named package exists," not "the ISO boots." That gap is intentional and still listed under remaining work below.
+
+This also replaces a leftover `jekyll-docker.yml` workflow that was shipped from a generic template and had nothing to do with this project (there is no Jekyll site here), and fixes `.github/dependabot.ymI` (note the capital `I` — GitHub never recognized that filename, so Dependabot was silently inactive) by renaming it to `dependabot.yml` and pointing it at the `github-actions` ecosystem, since this repo has no `package.json`/`requirements.txt`/etc. for Dependabot to track otherwise.

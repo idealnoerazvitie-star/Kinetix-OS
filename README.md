@@ -92,7 +92,7 @@ This borrows general ideas from other Linux distributions; it does not bundle th
 
 The HTML catalog is a discovery/demo UI: its Add buttons only save a local preview state. The distro image includes normal Debian software management, but this project does **not** yet provide its own packaged app-store ecosystem or a signed release pipeline.
 
-Before publishing a public ISO, add a release pipeline, verify package and ISO checksums/signatures, publish a vulnerability-reporting contact, document supported hardware, test installer and upgrade flows, and check all bundled software for licensing and security review.
+A vulnerability-reporting process is now published in [SECURITY.md](SECURITY.md). Before publishing a public ISO, still add a release pipeline, verify package and ISO checksums/signatures, document supported hardware, test installer and upgrade flows, and check all bundled software for licensing and security review.
 
 ## Bundles included in the feature plan
 
@@ -111,4 +111,4 @@ Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-
 
 This is an early distro scaffold, not a fully mature Mint/CachyOS/KDE Neon/Raspberry Pi OS replacement. It currently targets x86-64 only; it has no custom kernel, ARM image, custom installer branding, or full hardware support matrix yet. The repository is best understood as a Debian live-build foundation plus an interactive desktop concept and expanded roadmap.
 
-The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail, but no actual `lb build` has been run against them here — `live-build` needs root and a real Debian host/VM with internet access to the Debian mirrors, which this review did not have. The promised "white/blue Kinetix visual identity" (custom wallpaper, SDDM/login theme artwork, Plasma look-and-feel package) is still only described in prose — no theme assets exist in the repo yet.
+The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail. A GitHub Actions workflow ([`.github/workflows/validate-live-build.yml`](.github/workflows/validate-live-build.yml)) now re-runs that same check automatically on every push that touches the package lists, plus a syntax check of `auto/config` — but it stops short of `lb build`, which needs far more time/disk than CI should spend per push; no actual full ISO build has been run against this config. The promised "white/blue Kinetix visual identity" (custom wallpaper, SDDM/login theme artwork, Plasma look-and-feel package) is still only described in prose — no theme assets exist in the repo yet.

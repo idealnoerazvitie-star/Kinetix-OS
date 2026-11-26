@@ -1,0 +1,12 @@
+# Keep the GitHub Actions used in this repo's workflows up to date.
+# This project has no package.json/requirements.txt/Gemfile etc. — its
+# only real "dependencies" in the Dependabot sense are the actions
+# pinned in .github/workflows/*.yml.
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

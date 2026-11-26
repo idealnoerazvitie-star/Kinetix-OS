@@ -1,0 +1,91 @@
+name: Validate live-build config
+
+# This replaces an earlier, unrelated Jekyll-site workflow that this
+# repository never actually used (there is no Jekyll site here).
+#
+# Two real checks for this project:
+#  1. Every package named in the package lists / app-bundles.yaml
+#     actually exists in Debian trixie's repositories, so `lb build`
+#     won't fail partway through on a nonexistent package name.
+#  2. `auto/config` (the `lb config` invocation) is at least syntactically
+#     valid shell and runs without error.
+#
+# This does NOT run a full `lb build` — building a bootable ISO needs
+# way more time, disk and bandwidth than a normal CI job should use.
+# Treat a green run here as "the config won't immediately fail," not as
+# "the ISO boots" — only an actual `lb build` + boot test proves that.
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "config/package-lists/**"
+      - "config/app-bundles.yaml"
+      - "auto/config"
+      - ".github/workflows/validate-live-build.yml"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "config/package-lists/**"
+      - "config/app-bundles.yaml"
+      - "auto/config"
+      - ".github/workflows/validate-live-build.yml"
+  workflow_dispatch:
+
+jobs:
+  validate-packages:
+    runs-on: ubuntu-latest
+    container: debian:trixie
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable contrib/non-free/non-free-firmware
+        run: |
+          set -eu
+          # Debian's official image may use either the modern deb822
+          # *.sources format or the classic one-line sources.list.
+          if ls /etc/apt/sources.list.d/*.sources >/dev/null 2>&1; then
+            sed -i 's/^Components: main$/Components: main contrib non-free non-free-firmware/' /etc/apt/sources.list.d/*.sources
+          fi
+          if [ -f /etc/apt/sources.list ]; then
+            sed -i -E 's/^(deb(-src)? [^ ]+ [^ ]+ main)$/\1 contrib non-free non-free-firmware/' /etc/apt/sources.list
+          fi
+          apt-get update
+
+      - name: Collect package names used by this repo
+        run: |
+          set -eu
+          grep -hv '^[[:space:]]*#' config/package-lists/*.chroot | grep -v '^[[:space:]]*$' > /tmp/pkgs.txt
+          grep -E '^[[:space:]]*-[[:space:]]+[A-Za-z0-9]' config/app-bundles.yaml \
+            | sed -E 's/^[[:space:]]*-[[:space:]]*//' >> /tmp/pkgs.txt
+          sort -u -o /tmp/pkgs.txt /tmp/pkgs.txt
+          echo "Checking $(wc -l < /tmp/pkgs.txt) distinct package names:"
+          cat /tmp/pkgs.txt
+
+      - name: Verify every package exists in trixie's repositories
+        run: |
+          set -u
+          missing=0
+          while IFS= read -r pkg; do
+            [ -z "$pkg" ] && continue
+            if ! apt-cache show "$pkg" >/dev/null 2>&1; then
+              echo "::error::Package not found in Debian trixie: $pkg"
+              missing=1
+            fi
+          done < /tmp/pkgs.txt
+          exit "$missing"
+
+  validate-lb-config:
+    runs-on: ubuntu-latest
+    container: debian:trixie
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install live-build
+        run: |
+          set -eu
+          apt-get update
+          apt-get install -y --no-install-recommends live-build
+
+      - name: Run auto/config (lb config only — no image build)
+        run: sh auto/config
