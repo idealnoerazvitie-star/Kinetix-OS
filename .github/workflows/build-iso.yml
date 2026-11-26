@@ -1,0 +1,97 @@
+name: Build and boot-test Kinetix ISO
+
+on:
+  push:
+    branches: ["main"]
+    tags: ["v*"]
+    paths:
+      - "auto/**"
+      - "config/**"
+      - "scripts/**"
+      - "tests/**"
+      - ".github/workflows/build-iso.yml"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "auto/**"
+      - "config/**"
+      - "scripts/**"
+      - "tests/**"
+      - ".github/workflows/build-iso.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kinetix-iso-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-boot:
+    name: Build ISO and boot it in QEMU
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Build ISO and run QEMU boot smoke test
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          docker run --privileged --rm \
+            -v "$GITHUB_WORKSPACE:/work" \
+            -w /work \
+            debian:trixie \
+            bash -Eeuo pipefail -c '
+              export DEBIAN_FRONTEND=noninteractive
+              apt-get update
+              apt-get install -y --no-install-recommends \
+                live-build debootstrap xorriso squashfs-tools \
+                qemu-system-x86 qemu-utils socat procps python3-pil \
+                tesseract-ocr ca-certificates file
+              mkdir -p dist
+              ./scripts/build-iso.sh 2>&1 | tee dist/iso-build.log
+              ISO="$(find . -maxdepth 2 -type f -name "*.iso" -not -path "./dist/*" -print -quit)"
+              if [[ -z "$ISO" ]]; then
+                echo "::error::live-build completed but no ISO was produced."
+                exit 1
+              fi
+              cp "$ISO" dist/Kinetix-OS-amd64.iso
+              test "$(stat -c %s dist/Kinetix-OS-amd64.iso)" -gt 104857600
+              sha256sum dist/Kinetix-OS-amd64.iso > dist/SHA256SUMS
+              file dist/Kinetix-OS-amd64.iso | tee dist/iso-file-type.txt
+              bash scripts/verify-iso.sh dist/Kinetix-OS-amd64.iso
+            '
+
+      - name: Upload ISO and boot-test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kinetix-iso-${{ github.run_number }}
+          path: dist/
+          if-no-files-found: warn
+          retention-days: 14
+
+  publish-release:
+    name: Publish tagged ISO release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build-and-boot
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download verified ISO artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kinetix-iso-${{ github.run_number }}
+          path: dist/
+
+      - name: Publish ISO and checksum
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            dist/Kinetix-OS-amd64.iso
+            dist/SHA256SUMS

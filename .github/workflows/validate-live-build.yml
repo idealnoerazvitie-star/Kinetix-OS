@@ -93,4 +93,5 @@ jobs:
           cmp scripts/kinetix-firstboot.sh config/includes.chroot/usr/local/bin/kinetix-firstboot.sh
           bash tests/test-firstboot.sh
           bash -n tests/test-package-dependencies.sh
+          bash tests/test-iso-scripts.sh
           git diff --check
