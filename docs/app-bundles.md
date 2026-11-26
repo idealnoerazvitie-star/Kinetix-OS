@@ -1,6 +1,6 @@
-# Quantix OS app bundles
+# Kinetix OS app bundles
 
-This document defines the planned package groups for Quantix OS. The goal is to keep the distro approachable while offering specialized profiles for different user types.
+This document defines the planned package groups for Kinetix OS. The goal is to keep the distro approachable while offering specialized profiles for different user types.
 
 ## 1. Productivity bundle
 
@@ -121,4 +121,4 @@ Where Debian package availability is limited or the app is better served via Fla
 
 ## Deployment note
 
-These bundles are not meant to be forced onto every user. They are best treated as optional preset profiles or installation groups, while the default Quantix install remains lightweight and usable by default.
+These bundles are not meant to be forced onto every user. They are best treated as optional preset profiles or installation groups, while the default Kinetix install remains lightweight and usable by default.

@@ -1,8 +1,8 @@
-# Quantix OS roadmap
+# Kinetix OS roadmap
 
 ## Goal
 
-Quantix OS is intended to become a polished Debian-based desktop distribution with a clean white-and-blue KDE identity. The repo currently combines:
+Kinetix OS is intended to become a polished Debian-based desktop distribution with a clean white-and-blue KDE identity. The repo currently combines:
 
 - a Debian Live build configuration
 - a browser-based desktop mockup
@@ -28,12 +28,12 @@ This should be driven by a small script on the live desktop and a persistent mar
 
 ### 2. KDE desktop identity
 
-Quantix should ship with:
+Kinetix should ship with:
 
 - KDE Plasma desktop
 - Breeze/Qt theming
 - SDDM login theme
-- white and blue Quantix visual identity
+- white and blue Kinetix visual identity
 - sensible panel/dock layout
 - default file manager and terminal configuration
 
@@ -54,9 +54,9 @@ These can be installed in the live environment or modeled as package lists for I
 
 ### 4. Terminal experience
 
-A modern Linux desktop needs a strong terminal workflow. Quantix should include:
+A modern Linux desktop needs a strong terminal workflow. Kinetix should include:
 
-- Konsole with a Quantix theme
+- Konsole with a Kinetix theme
 - shell aliases for common tasks
 - `fastfetch`/`neofetch`
 - developer-ready packages like `git`, `curl`, `wget`, `ripgrep`, `fd`, `jq`, and `htop`
@@ -114,7 +114,7 @@ The project should include automated release checks:
 
 This branch includes:
 
-- `scripts/quantix-firstboot.sh` — a first-boot helper script
+- `scripts/kinetix-firstboot.sh` — a first-boot helper script
 - `config/app-bundles.yaml` — bundle definitions and package suggestions
 - `docs/app-bundles.md` — detailed app bundle documentation
 

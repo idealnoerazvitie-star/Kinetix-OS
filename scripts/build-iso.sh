@@ -18,7 +18,7 @@ if ! command -v lb >/dev/null 2>&1; then
 fi
 
 if [ ! -f /etc/debian_version ]; then
-  echo "Build the Quantix ISO on Debian (or a Debian environment)." >&2
+  echo "Build the Kinetix ISO on Debian (or a Debian environment)." >&2
   exit 1
 fi
 
@@ -26,4 +26,4 @@ fi
 sh auto/config
 lb build
 
-printf '\nBuild complete. Look for the generated Quantix ISO in: %s\n' "$ROOT"
+printf '\nBuild complete. Look for the generated Kinetix ISO in: %s\n' "$ROOT"

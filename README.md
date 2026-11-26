@@ -39,7 +39,7 @@ The Kinetix project now includes a KDE/Neon-inspired feature layer to blend the 
 - KDE Plasma desktop, SDDM login, Breeze theme, and Qt/KDE app ecosystem
 - Dolphin file manager, Konsole terminal, Discover software center, System Settings, and KDE Connect
 - Neon-style workflow: fast desktop search, widgets, app launcher, and customization-friendly system tools
-- White/blue Quantix visual scheme layered on top of Plasma's modern desktop polish
+- White/blue Kinetix visual scheme layered on top of Plasma's modern desktop polish
 - Qt apps such as Okular, KWrite, Gwenview, Spectacle, and KCalc for daily productivity
 
 This keeps the OS approachable and modern while preserving the Kinetix identity.
@@ -51,7 +51,7 @@ This repository now includes a practical expansion plan for turning the project 
 ### Planned additions
 
 - A first-boot configuration wizard for language, keyboard, user setup, and initial system review
-- Quantix KDE branding with a custom wallpaper, login screen, app-launcher layout, and desktop defaults
+- Kinetix KDE branding with a custom wallpaper, login screen, app-launcher layout, and desktop defaults
 - Multi-profile app bundles for productivity, development, maker work, security learning, gaming, and accessibility
 - Terminal and shell experience improvements for Konsole, including aliases, prompt configuration, and developer tools
 - Better package management and Flatpak integration for a polished software installation flow
@@ -104,7 +104,7 @@ The project is now planned to include optional bundle definitions. See [docs/app
 - Gaming bundle
 - Accessibility bundle
 
-Additionally, a first-boot bootstrapping helper is provided in [scripts/quantix-firstboot.sh](scripts/kinetix-firstboot.sh).
+Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-firstboot.sh](scripts/kinetix-firstboot.sh).
 
 ## Current limitations
 
