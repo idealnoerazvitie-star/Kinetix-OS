@@ -77,7 +77,7 @@ Clone this repository and run:
 sudo ./scripts/build-iso.sh
 ```
 
-The build downloads packages from the configured Debian repositories and can take a while. The resulting hybrid ISO should appear in the repository directory. To verify it locally, install `qemu-system-x86`, `qemu-utils`, `xorriso`, `socat`, `python3-pil`, and `tesseract-ocr`, then run `bash scripts/verify-iso.sh path/to/image.iso`. The `Build and boot-test Kinetix ISO` GitHub Actions workflow performs the full build, QEMU boot smoke test, and SHA-256 generation on pull requests and pushes to `main`; it also supports manual runs. The resulting ISO and diagnostic evidence are uploaded as a workflow artifact for 14 days.
+The build downloads packages from the configured Debian repositories and can take a while. The resulting hybrid ISO should appear in the repository directory. To verify it locally, install `qemu-system-x86`, `qemu-utils`, `xorriso`, `socat`, `procps`, `python3-pil`, and `tesseract-ocr`, then run `bash scripts/verify-iso.sh path/to/image.iso`. The `Build and boot-test Kinetix ISO` GitHub Actions workflow performs the full build, QEMU boot smoke test, and SHA-256 generation on pull requests and pushes to `main`; it also supports manual runs. The resulting ISO and diagnostic evidence are uploaded as a workflow artifact for 14 days.
 
 ## Included distro building blocks
 
