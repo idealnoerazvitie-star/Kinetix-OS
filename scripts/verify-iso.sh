@@ -36,7 +36,7 @@ trap cleanup EXIT
 
 mkdir -p dist
 echo "Checking ISO filesystem and El Torito boot catalog..."
-xorriso -indev "$ISO" -report_el_torito plain | tee dist/iso-boot-catalog.txt
+xorriso -indev "$ISO" -report_el_torito plain 2>&1 | tee dist/iso-boot-catalog.txt
 grep -Eiq 'El Torito|Boot catalog' dist/iso-boot-catalog.txt || {
   echo "No El Torito boot catalog was reported." >&2
   exit 1
