@@ -38,7 +38,9 @@ jobs:
           if [ -f /etc/apt/sources.list ]; then
             sed -i -E 's/^(deb(-src)? [^ ]+ [^ ]+ main)$/\1 contrib non-free non-free-firmware/' /etc/apt/sources.list
           fi
+          dpkg --add-architecture i386
           apt-get update
+          apt-get install -y --no-install-recommends python3-yaml
 
       - name: Collect package names
         run: |
@@ -61,6 +63,9 @@ jobs:
             exit 1
           fi
           echo "All package names are available in Debian trixie."
+
+      - name: Simulate base and optional bundle installations
+        run: bash tests/test-package-dependencies.sh
 
   validate-build-configuration:
     runs-on: ubuntu-latest
@@ -87,4 +92,5 @@ jobs:
           bash -n config/includes.chroot/usr/local/bin/kinetix-firstboot.sh
           cmp scripts/kinetix-firstboot.sh config/includes.chroot/usr/local/bin/kinetix-firstboot.sh
           bash tests/test-firstboot.sh
+          bash -n tests/test-package-dependencies.sh
           git diff --check

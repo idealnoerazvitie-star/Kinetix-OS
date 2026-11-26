@@ -41,7 +41,7 @@ The Kinetix project now includes a KDE/Neon-inspired feature layer to blend the 
 - Dolphin file manager, Konsole terminal, Discover software center, System Settings, and KDE Connect
 - Neon-style workflow: fast desktop search, widgets, app launcher, and customization-friendly system tools
 - White/blue Kinetix visual scheme layered on top of Plasma's modern desktop polish
-- Qt apps such as Okular, KWrite, Gwenview, Spectacle, and KCalc for daily productivity
+- Qt apps such as Okular, KWrite, Gwenview, KDE Spectacle, and KCalc for daily productivity
 
 This keeps the OS approachable and modern while preserving the Kinetix identity.
 
@@ -111,4 +111,4 @@ Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-
 
 This is an early distro scaffold, not a fully mature Mint/CachyOS/KDE Neon/Raspberry Pi OS replacement. It currently targets x86-64 only; it has no custom kernel, ARM image, custom installer branding, or full hardware support matrix yet. The repository is best understood as a Debian live-build foundation plus an interactive desktop concept and expanded roadmap.
 
-The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail. A GitHub Actions workflow ([`.github/workflows/validate-live-build.yml`](.github/workflows/validate-live-build.yml)) checks Debian package availability, runs `lb config`, validates shell syntax, confirms the two first-login script copies stay identical, and runs a regression test for first-login idempotence. It still stops short of a full `lb build` and VM boot test; no actual full ISO build has been run against this config. The promised "white/blue Kinetix visual identity" (custom wallpaper, SDDM/login theme artwork, Plasma look-and-feel package) is still only described in prose — no theme assets exist in the repo yet.
+The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail. A GitHub Actions workflow ([`.github/workflows/validate-live-build.yml`](.github/workflows/validate-live-build.yml)) checks Debian package availability, simulates APT dependency resolution for the complete base package set and each optional bundle, runs `lb config`, validates shell syntax, confirms the two first-login script copies stay identical, and runs regression tests for first-login behavior. It still stops short of a full `lb build` and VM boot test; no actual full ISO build has been run against this config. The promised "white/blue Kinetix visual identity" (custom wallpaper, SDDM/login theme artwork, Plasma look-and-feel package) is still only described in prose — no theme assets exist in the repo yet.

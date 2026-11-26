@@ -42,10 +42,9 @@ kcharselect
 khelpcenter
 kdegraphics-thumbnailers
 kdenetwork-filesharing
-pulseaudio
 pavucontrol
 
-# Network, Bluetooth, audio, printing and firmware
+# Network, Bluetooth, PipeWire audio, printing and firmware
 network-manager
 network-manager-gnome
 wpasupplicant

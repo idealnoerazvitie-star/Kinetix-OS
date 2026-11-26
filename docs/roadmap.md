@@ -6,7 +6,7 @@ Kinetix OS is intended to become a polished Debian-based desktop distribution wi
 
 - a Debian Live build configuration
 - a browser-based desktop mockup
-- a planned app bundle and user-experience layer
+- planned app bundle and user-experience layers
 
 The purpose is to move from a concept project to a practical, bootable Linux desktop distribution with modern defaults and optional specialized bundles.
 
@@ -24,9 +24,7 @@ Users should see a guided setup flow on first login that includes:
 - update and driver detection
 - choice of desktop profile
 
-This should be driven by a small script on the live desktop and a persistent marker so it runs only once.
-
-**Status:** `scripts/kinetix-firstboot.sh` now ships inside the built image (via `config/includes.chroot`) and is wired to autostart once per new user through an XDG autostart entry under `/etc/skel`. Today it only sets shell aliases, a profile marker, and a welcome notification — the language/keyboard/timezone/account steps above are still handled by Debian's own live-installer during install, not by this script, and a guided post-install wizard covering Wi-Fi onboarding and driver detection is still unbuilt.
+**Current status:** `scripts/kinetix-firstboot.sh` ships inside the image and is wired to autostart once per new user. It currently sets shell aliases, creates a small profile file, and shows an optional welcome notification. It is not yet a guided configuration wizard. Language, keyboard, timezone, and account creation remain part of Debian's installer; post-install Wi-Fi onboarding and driver detection are not implemented.
 
 ### 2. KDE desktop identity
 
@@ -39,49 +37,29 @@ Kinetix should ship with:
 - sensible panel/dock layout
 - default file manager and terminal configuration
 
+The current image uses upstream Breeze defaults; custom Kinetix wallpaper, SDDM artwork, and a Plasma look-and-feel package remain to be built.
+
 ### 3. App bundles
 
-The distro should ship with clearly separated installation profiles instead of a single giant package set. The bundle approach helps the project stay manageable and approachable.
-
-Recommended bundles:
-
-- Productivity
-- Developer
-- Maker
-- Security learning
-- Gaming
-- Accessibility
-
-These can be installed in the live environment or modeled as package lists for ISO customization.
+The optional package groups are defined in `config/app-bundles.yaml` and documented in [app-bundles.md](app-bundles.md). They are definitions only: no graphical app-bundle installer currently consumes this YAML.
 
 ### 4. Terminal experience
 
-A modern Linux desktop needs a strong terminal workflow. Kinetix should include:
-
-- Konsole with a Kinetix theme
-- shell aliases for common tasks
-- `fastfetch`/`neofetch`
-- developer-ready packages like `git`, `curl`, `wget`, `ripgrep`, `fd`, `jq`, and `htop`
-- optional `starship` prompt
+A modern Linux desktop needs a strong terminal workflow. Kinetix currently includes a small set of aliases and Fastfetch. A branded Konsole theme, optional Starship prompt, and a fuller developer environment remain planned.
 
 ### 5. Software management
 
-The OS should support:
-
-- APT packages from Debian repos
-- Flatpak applications from configured remotes
-- app categories for easier discovery
-- a clear separation between the browser mockup and actual package installation
+The OS currently uses Debian APT/Synaptic and KDE Discover with the Flatpak backend. Flatpak remotes and trust policy must be configured and reviewed before broad end-user use. The HTML app catalog is a browser demo and does not install software.
 
 ### 6. Quality and release validation
 
 The project should include automated release checks:
 
-- ISO build check
+- full ISO build
 - boot smoke test in QEMU/VirtualBox
 - installer smoke test
-- package validation
-- checksum generation
+- package and dependency validation
+- checksum and signature generation
 - release notes
 
 ## Suggested milestone plan
@@ -103,7 +81,7 @@ The project should include automated release checks:
 
 - define default app bundles
 - provide package lists for each bundle
-- add documentation for install and update workflows
+- add an actual installer workflow and update handling
 
 ### Phase 4: Release quality
 
@@ -112,35 +90,13 @@ The project should include automated release checks:
 - test hardware compatibility
 - add documentation for supported devices
 
-## File additions in this branch
+## Package list and dependency validation
 
-This branch includes:
+The CI workflow `.github/workflows/validate-live-build.yml`:
 
-- `scripts/kinetix-firstboot.sh` — a first-boot helper script, now also installed into the image at `config/includes.chroot/usr/local/bin/` with an autostart entry under `config/includes.chroot/etc/skel/.config/autostart/`
-- `config/app-bundles.yaml` — bundle definitions and package suggestions
-- `docs/app-bundles.md` — detailed app bundle documentation
+- checks that all package names in the base package list and app-bundle YAML exist in Debian Trixie
+- runs APT dependency-resolution simulations for the complete base package list and each optional bundle
+- runs `lb config` to validate the Debian Live configuration
+- checks shell syntax, first-boot script parity, and the first-boot regression test
 
-These additions are meant to give the project a practical foundation, not to replace the Debian live-build configuration itself.
-
-## Package list audit
-
-The base package list (`config/package-lists/kinetix.list.chroot`) and `config/app-bundles.yaml` / `docs/app-bundles.md` were checked against Debian trixie's actual package set. Packages removed because they no longer exist in trixie and would make `apt`/`lb build` fail outright:
-
-- `ksnapshot` — KDE4-era screenshot tool, superseded by `spectacle` (already included) and long gone from Debian
-- `scratch` — depends on an unmaintained Squeak runtime; removed from Debian's repositories
-- `raspberrypi-ui-mods` — belongs to Raspberry Pi OS's own apt repository, not Debian
-
-Also dropped `gnome-software` and `gnome-software-plugin-flatpak` from the base image: they exist in trixie but duplicate what KDE Discover + `plasma-discover-backend-flatpak` already provide, and pulling in the GNOME Software stack on a KDE-first spin works against the "clean KDE identity" goal. `code` (VS Code) was dropped from the developer bundle doc since it is not packaged in Debian's own repositories at all; it stays as a Flatpak recommendation.
-
-This audit was done by cross-checking Debian's package tracker and `packages.debian.org`, not by a real `lb build` run — see [README.md § Current limitations](../README.md#current-limitations).
-
-## Continuous validation
-
-`.github/workflows/validate-live-build.yml` now runs this same kind of check automatically on every push/PR that touches the package lists, `config/app-bundles.yaml`, or `auto/config`:
-
-- **validate-packages** — installs nothing from this repo; it just runs `apt-cache show` for every package name against a real `debian:trixie` container (with contrib/non-free/non-free-firmware enabled, matching `auto/config`'s `--archive-areas`) and fails the run if any package name doesn't exist. This is the automated version of the manual audit above, so a future mistake like the `ksnapshot`/`scratch` ones gets caught before merge instead of during a real `lb build`.
-- **validate-lb-config** — installs `live-build` in the same container and runs `sh auto/config` (i.e. `lb config`) to catch syntax errors or invalid `lb config` flags.
-
-Neither job runs `lb build` itself — a full ISO build needs far more time, disk and bandwidth than is reasonable for a per-push CI check. A green run here means "the config is internally consistent and every named package exists," not "the ISO boots." That gap is intentional and still listed under remaining work below.
-
-This also replaces a leftover `jekyll-docker.yml` workflow that was shipped from a generic template and had nothing to do with this project (there is no Jekyll site here), and fixes `.github/dependabot.ymI` (note the capital `I` — GitHub never recognized that filename, so Dependabot was silently inactive) by renaming it to `dependabot.yml` and pointing it at the `github-actions` ecosystem, since this repo has no `package.json`/`requirements.txt`/etc. for Dependabot to track otherwise.
+A successful CI run verifies package availability and dependency solvability in the CI environment. It does **not** prove that a complete ISO builds, that KDE starts, or that the installer and hardware work in a virtual machine or on physical devices. Those release checks remain outstanding.
