@@ -42,7 +42,7 @@ Packages:
 - nodejs
 - npm
 - docker.io
-- docker-compose-plugin
+- docker-compose
 - geany
 - gdb
 
