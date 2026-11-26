@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -u
+set -uo pipefail
 
 OUT="${1:-/dev/stdout}"
 if [[ "$OUT" != "/dev/stdout" ]]; then
@@ -15,7 +15,9 @@ run() {
   local label="$1"; shift
   section "$label"
   if command -v "$1" >/dev/null 2>&1; then
-    "$@" 2>&1 || printf '[command exited with status %s]\n' "$?"
+    local status=0
+    "$@" 2>&1 | sed -E 's/([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}/[REDACTED-MAC]/g; s/^([[:space:]]*Serial Number:).*/\\1 [REDACTED]/I' || status=$?
+    if [[ "$status" -ne 0 ]]; then printf '[command exited with status %s]\n' "$status"; fi
   else
     printf '[not installed: %s]\n' "$1"
   fi
@@ -23,7 +25,7 @@ run() {
 
 section "System"
 date -Is
-uname -a
+uname -srm
 if [[ -r /etc/os-release ]]; then cat /etc/os-release; fi
 
 run "PCI devices and drivers" lspci -nnk
