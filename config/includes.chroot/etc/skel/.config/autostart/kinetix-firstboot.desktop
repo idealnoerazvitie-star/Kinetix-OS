@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Kinetix First-Boot Setup
+Comment=Prepares aliases and a friendly starting environment on first login
+Exec=/usr/local/bin/kinetix-firstboot.sh
+Icon=preferences-system
+X-KDE-autostart-phase=1
+NoDisplay=true
+Terminal=false

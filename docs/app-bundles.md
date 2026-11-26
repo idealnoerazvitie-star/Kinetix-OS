@@ -43,9 +43,10 @@ Packages:
 - npm
 - docker.io
 - docker-compose-plugin
-- code
 - geany
 - gdb
+
+VS Code is not packaged in Debian's own repositories; it is offered as a Flatpak below instead of an apt package here.
 
 ## 3. Maker bundle
 
@@ -56,10 +57,10 @@ Packages:
 - thonny
 - python3-gpiozero
 - arduino
-- scratch
-- raspberrypi-ui
 - libreoffice-calc
 - gparted
+
+Scratch is deliberately left out: the `scratch` package was dropped from Debian's repositories (it depends on an unmaintained Squeak-based runtime) and is not installable on trixie. `raspberrypi-ui-mods`, sometimes suggested for a "maker" look, is specific to Raspberry Pi OS's own apt repository and is not available on a generic Debian amd64 system like Kinetix — it is not included here.
 
 ## 4. Security learning bundle
 
@@ -104,7 +105,6 @@ Packages:
 - kdeaccessibility
 - espeak-ng
 - brltty
-- gnome-accessibility-tools
 
 ## Flatpak recommendation
 

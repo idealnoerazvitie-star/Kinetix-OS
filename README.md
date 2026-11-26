@@ -30,6 +30,7 @@ Kinetix OS is a Debian-based Linux distribution project with a clean white-and-b
 
 - `index.html`: an interactive, browser-only desktop and app-catalog mockup.
 - `auto/config` and `config/`: a Debian Live build configuration for an **amd64 x86-64 live/install image**, including a Debian installer and a curated package set.
+- `config/includes.chroot/`: files copied verbatim into the built system — the first-boot script at `/usr/local/bin/kinetix-firstboot.sh` and an XDG autostart entry (via `/etc/skel`) that runs it once per new user.
 - `scripts/build-iso.sh`: a helper to build the configured ISO on Debian.
 
 ## Neon OS-inspired additions
@@ -81,8 +82,8 @@ The build downloads packages from the configured Debian repositories and can tak
 - **Desktop:** KDE Plasma with Neon-style polish, SDDM, and Debian's live installer.
 - **Daily use:** Firefox ESR, Thunderbird, LibreOffice, VLC, GIMP, Inkscape, Dolphin, Konsole, Discover, and FileZilla.
 - **System integration:** NetworkManager, Bluetooth, PipeWire audio, printing, firmware packages, and fwupd.
-- **Software management:** Debian packages through APT/Synaptic, plus Flatpak and GNOME Software's Flatpak plugin. Flatpak remotes and trust policy still need to be configured and reviewed before broader end-user use.
-- **Maker and education:** Thonny, GPIO Zero, Arduino, and Scratch packages where available for the selected Debian release.
+- **Software management:** Debian packages through APT/Synaptic, plus Flatpak through KDE Discover's Flatpak backend. Flatpak remotes and trust policy still need to be configured and reviewed before broader end-user use.
+- **Maker and education:** Thonny, GPIO Zero, and Arduino. (Scratch is intentionally left out — the `scratch` package was dropped from Debian's repositories and is not installable on trixie; see [docs/app-bundles.md](docs/app-bundles.md) for a note on alternatives.)
 - **Accessibility and maintenance:** Orca, Onboard, Timeshift, GParted, and common command-line utilities.
 
 This borrows general ideas from other Linux distributions; it does not bundle their proprietary assets or claim to reproduce their entire feature sets. In particular, CachyOS-specific kernel optimization and branding are intentionally not treated as a direct upstream dependency for this repo.
@@ -109,3 +110,5 @@ Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-
 ## Current limitations
 
 This is an early distro scaffold, not a fully mature Mint/CachyOS/KDE Neon/Raspberry Pi OS replacement. It currently targets x86-64 only; it has no custom kernel, ARM image, custom installer branding, or full hardware support matrix yet. The repository is best understood as a Debian live-build foundation plus an interactive desktop concept and expanded roadmap.
+
+The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail, but no actual `lb build` has been run against them here — `live-build` needs root and a real Debian host/VM with internet access to the Debian mirrors, which this review did not have. The promised "white/blue Kinetix visual identity" (custom wallpaper, SDDM/login theme artwork, Plasma look-and-feel package) is still only described in prose — no theme assets exist in the repo yet.

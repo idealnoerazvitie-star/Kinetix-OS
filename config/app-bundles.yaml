@@ -39,7 +39,6 @@ bundles:
       - thonny
       - python3-gpiozero
       - arduino
-      - scratch
       - gparted
   security-learning:
     description: "Network and security education"

@@ -26,6 +26,8 @@ Users should see a guided setup flow on first login that includes:
 
 This should be driven by a small script on the live desktop and a persistent marker so it runs only once.
 
+**Status:** `scripts/kinetix-firstboot.sh` now ships inside the built image (via `config/includes.chroot`) and is wired to autostart once per new user through an XDG autostart entry under `/etc/skel`. Today it only sets shell aliases, a profile marker, and a welcome notification — the language/keyboard/timezone/account steps above are still handled by Debian's own live-installer during install, not by this script, and a guided post-install wizard covering Wi-Fi onboarding and driver detection is still unbuilt.
+
 ### 2. KDE desktop identity
 
 Kinetix should ship with:
@@ -114,8 +116,20 @@ The project should include automated release checks:
 
 This branch includes:
 
-- `scripts/kinetix-firstboot.sh` — a first-boot helper script
+- `scripts/kinetix-firstboot.sh` — a first-boot helper script, now also installed into the image at `config/includes.chroot/usr/local/bin/` with an autostart entry under `config/includes.chroot/etc/skel/.config/autostart/`
 - `config/app-bundles.yaml` — bundle definitions and package suggestions
 - `docs/app-bundles.md` — detailed app bundle documentation
 
 These additions are meant to give the project a practical foundation, not to replace the Debian live-build configuration itself.
+
+## Package list audit
+
+The base package list (`config/package-lists/kinetix.list.chroot`) and `config/app-bundles.yaml` / `docs/app-bundles.md` were checked against Debian trixie's actual package set. Packages removed because they no longer exist in trixie and would make `apt`/`lb build` fail outright:
+
+- `ksnapshot` — KDE4-era screenshot tool, superseded by `spectacle` (already included) and long gone from Debian
+- `scratch` — depends on an unmaintained Squeak runtime; removed from Debian's repositories
+- `raspberrypi-ui-mods` — belongs to Raspberry Pi OS's own apt repository, not Debian
+
+Also dropped `gnome-software` and `gnome-software-plugin-flatpak` from the base image: they exist in trixie but duplicate what KDE Discover + `plasma-discover-backend-flatpak` already provide, and pulling in the GNOME Software stack on a KDE-first spin works against the "clean KDE identity" goal. `code` (VS Code) was dropped from the developer bundle doc since it is not packaged in Debian's own repositories at all; it stays as a Flatpak recommendation.
+
+This audit was done by cross-checking Debian's package tracker and `packages.debian.org`, not by a real `lb build` run — see "Current limitations" below.

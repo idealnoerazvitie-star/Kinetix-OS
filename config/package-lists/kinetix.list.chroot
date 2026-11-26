@@ -42,7 +42,6 @@ spectacle
 ark
 kcalc
 kcharselect
-ksnapshot
 khelpcenter
 kdegraphics-thumbnailers
 kdenetwork-filesharing
@@ -78,14 +77,11 @@ filezilla
 flatpak
 packagekit
 packagekit-tools
-gnome-software
-gnome-software-plugin-flatpak
 
 # Raspberry Pi / maker / education inspired tools
 thonny
 python3-gpiozero
 arduino
-scratch
 
 # Administration, accessibility, backup, development and daily utilities
 orca
@@ -99,6 +95,8 @@ wget
 git
 vim-tiny
 htop
+fastfetch
+libnotify-bin
 gparted
 timeshift
 bleachbit
