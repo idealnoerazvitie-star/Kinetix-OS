@@ -92,11 +92,10 @@ The project should include automated release checks:
 
 ## Package list and dependency validation
 
-The CI workflow `.github/workflows/validate-live-build.yml`:
+The CI workflows now provide two layers of validation:
 
-- checks that all package names in the base package list and app-bundle YAML exist in Debian Trixie
-- runs APT dependency-resolution simulations for the complete base package list and each optional bundle
-- runs `lb config` to validate the Debian Live configuration
-- checks shell syntax, first-boot script parity, and the first-boot regression test
+- `.github/workflows/validate-live-build.yml` checks package availability, simulates APT dependency resolution for the base image and optional bundles, runs `lb config`, checks shell syntax and first-boot script parity, and runs regression tests.
+- `.github/workflows/build-iso.yml` performs a full `lb build` inside a privileged Debian Trixie container, checks the ISO boot catalog, starts the ISO in QEMU using software emulation, switches to a text console, captures a screenshot, and uses OCR to look for a Debian/Kinetix login prompt. It uploads the ISO, SHA-256 checksum, and boot diagnostics as a 14-day workflow artifact.
+- Pushing a `v*` tag publishes a GitHub Release only after the build and QEMU boot job succeeds.
 
-A successful CI run verifies package availability and dependency solvability in the CI environment. It does **not** prove that a complete ISO builds, that KDE starts, or that the installer and hardware work in a virtual machine or on physical devices. Those release checks remain outstanding.
+The QEMU job tests a BIOS-mode virtual machine. It is not an installer qualification test and cannot certify Wi-Fi, Bluetooth, audio, graphics acceleration, suspend/resume, firmware, or other physical hardware. The checksum detects accidental corruption but is not a cryptographic publisher signature. Follow [hardware-testing.md](hardware-testing.md) on physical devices and use a disposable VM disk for installer testing.
