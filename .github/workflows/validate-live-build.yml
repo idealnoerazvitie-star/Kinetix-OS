@@ -46,21 +46,21 @@ jobs:
           grep -hv '^[[:space:]]*#' config/package-lists/*.chroot | grep -v '^[[:space:]]*$' > /tmp/packages.txt
           grep -E '^[[:space:]]*-[[:space:]]+[A-Za-z0-9]' config/app-bundles.yaml \
             | sed -E 's/^[[:space:]]*-[[:space:]]*//' >> /tmp/packages.txt
-          sort -u -o /tmp/packages.txt /tmp/packages.txt
+          LC_ALL=C sort -u -o /tmp/packages.txt /tmp/packages.txt
           echo "Checking $(wc -l < /tmp/packages.txt) package names."
 
       - name: Verify package availability
         run: |
           set -eu
-          missing=0
-          while IFS= read -r package; do
-            [ -n "$package" ] || continue
-            if ! apt-cache show "$package" >/dev/null 2>&1; then
+          apt-cache pkgnames | LC_ALL=C sort -u > /tmp/available-packages.txt
+          LC_ALL=C comm -23 /tmp/packages.txt /tmp/available-packages.txt > /tmp/missing-packages.txt
+          if [ -s /tmp/missing-packages.txt ]; then
+            while IFS= read -r package; do
               echo "::error::Package not found in Debian trixie: $package"
-              missing=1
-            fi
-          done < /tmp/packages.txt
-          exit "$missing"
+            done < /tmp/missing-packages.txt
+            exit 1
+          fi
+          echo "All package names are available in Debian trixie."
 
   validate-build-configuration:
     runs-on: ubuntu-latest
