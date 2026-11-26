@@ -56,7 +56,7 @@ bundles:
   gaming:
     description: "Games and entertainment"
     packages:
-      - steam
+      - steam-installer
       - lutris
       - retroarch
       - wine
