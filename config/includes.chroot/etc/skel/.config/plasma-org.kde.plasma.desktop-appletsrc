@@ -1,0 +1,6 @@
+[Containments][1]
+wallpaperplugin=org.kde.image
+
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=/usr/share/backgrounds/kinetix/kinetix-wallpaper.svg
+FillMode=2
