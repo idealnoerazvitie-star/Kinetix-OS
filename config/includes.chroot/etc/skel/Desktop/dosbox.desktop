@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=DOSBox
+Exec=dosbox
+Icon=dosbox
+Terminal=false
+Categories=Game;Emulator;
