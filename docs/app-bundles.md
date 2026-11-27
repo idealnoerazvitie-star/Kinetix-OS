@@ -1,154 +1,49 @@
-# Kinetix OS app bundles
+# Kinetix OS software bundles
 
-This document defines the planned package groups for Kinetix OS. The goal is to keep the distro approachable while offering specialized profiles for different user types.
+Kinetix uses KDE Plasma, Papirus application icons and Breeze desktop styling. Optional software is grouped into bundles so users install only what they need.
 
-## 1. Productivity bundle
-
-Description: general-purpose desktop set for work, study, and daily use.
-
-Packages:
-
-- firefox-esr
-- thunderbird
-- libreoffice-writer
-- libreoffice-calc
-- libreoffice-impress
-- vlc
-- okular
-- gimp
-- inkscape
-- filezilla
-- keepassxc
-- nextcloud-client
-
-## 2. Developer bundle
-
-Description: code, shell, tooling, and development environment.
-
-Packages:
-
-- git
-- build-essential
-- curl
-- wget
-- jq
-- ripgrep
-- fd-find
-- htop
-- vim
-- neovim
-- python3
-- python3-pip
-- nodejs
-- npm
-- docker.io
-- docker-compose
-- geany
-- gdb
-
-VS Code is not packaged in Debian's own repositories; it is offered as a Flatpak below instead of an apt package here.
-
-## 3. Maker bundle
-
-Description: learning, microcontrollers, electronics, and maker tasks.
-
-Packages:
-
-- thonny
-- python3-gpiozero
-- arduino
-- libreoffice-calc
-- gparted
-
-Scratch is deliberately left out: the `scratch` package was dropped from Debian's repositories (it depends on an unmaintained Squeak-based runtime) and is not installable on trixie. `raspberrypi-ui-mods`, sometimes suggested for a "maker" look, is specific to Raspberry Pi OS's own apt repository and is not available on a generic Debian amd64 system like Kinetix — it is not included here.
-
-## 4. Security learning bundle
-
-Description: educational and defensive tools for Linux security and networking practice.
-
-Packages:
-
-- nmap
-- wireshark
-- tcpdump
-- aircrack-ng
-- john
-- hashcat
-- binwalk
-- gdb
-- netcat-openbsd
-- testdisk
-- steghide
-- sqlmap
-
-## 5. Gaming bundle
-
-Description: gaming and entertainment on a desktop Linux environment.
-
-Packages:
-
-- steam-installer
-- lutris
-- retroarch
-- wine
-- gamemode
-- protontricks
-
-The Steam package is named `steam-installer` for amd64 in Debian Trixie. Steam requires 32-bit compatibility libraries, so enable the i386 architecture before installing it:
-
-```sh
-sudo dpkg --add-architecture i386
-sudo apt update
-sudo apt install steam-installer
-```
-
-Make sure the system has suitable graphics drivers and Vulkan support for the GPU before expecting modern games to run well.
-
-## 6. Accessibility bundle
-
-Description: accessibility and assistive tools for daily use.
-
-Packages:
-
-- orca
-- onboard
-- kdeaccessibility
-- espeak-ng
-- brltty
-
-## Flatpak recommendation
-
-Where Debian package availability is limited or the app is better served via Flatpak, the following are recommended:
-
-- Signal Desktop
-- Discord
-- Spotify
-- VS Code (if packaged version is insufficient)
-- Obsidian
-- Bitwarden
-- Blender
-- Krita
-
-## Installing an optional bundle
-
-The repository includes a command-line installer for these optional bundles. The base image includes `python3-yaml`, and the bundle definition is installed at `/usr/share/kinetix/app-bundles.yaml`.
-
-List available bundles:
+## Install a bundle
 
 ```sh
 kinetix-bundle --list
-```
-
-Preview an installation without changing the system:
-
-```sh
-kinetix-bundle --dry-run developer
-```
-
-Install a bundle:
-
-```sh
+kinetix-bundle --dry-run gaming
 sudo kinetix-bundle productivity
+sudo kinetix-bundle creative
+sudo kinetix-bundle gaming
 ```
 
-The installer validates the selected bundle and package names, updates APT metadata, and installs only that bundle with `--no-install-recommends`. Bundles are optional; the default Kinetix image remains a separate, lighter package set. This is a command-line installer, not yet a graphical app-store integration. CI tests the parser and dry-run path and simulates package dependency resolution against Debian Trixie.
+The installer validates Debian package names and Flatpak IDs. Debian packages come from configured Debian repositories. Flathub is added only when the user explicitly installs a bundle containing Flatpak apps.
+
+## Bundles
+
+| Category | Examples |
+|---|---|
+| Productivity | LibreOffice, Thunderbird, Okular, KeePassXC, Nextcloud, Syncthing, Obsidian, Zotero |
+| Internet | Firefox ESR, Chromium, qBittorrent, Remmina, Telegram, Signal, Discord |
+| Creative | GIMP, Inkscape, Krita, Blender, Darktable, FreeCAD, Kdenlive, OBS |
+| Multimedia | VLC, MPV, Audacity, HandBrake, Ardour, LMMS, Spotify |
+| Developer | Git, GCC, CMake, Clang, Python, Node.js, Rust, Go, Java, Docker, Podman, VS Code |
+| Maker | Arduino, Thonny, KiCad, Fritzing, OpenSCAD, FreeCAD |
+| Science & education | Stellarium, KStars, GCompris, Anki, Octave, GeoGebra |
+| Security learning | Nmap, Wireshark, tcpdump, Aircrack-ng, John, Hashcat, TestDisk, Lynis |
+| Gaming | Steam, Lutris, RetroArch, DOSBox, ScummVM, OpenTTD, SuperTuxKart, 0 A.D., Xonotic, Heroic, Bottles |
+| Accessibility | Orca, Onboard, speech-dispatcher, eSpeak NG, KMagnifier |
+| System | Timeshift, BleachBit, GParted, Synaptic, CPU-X, Hardinfo, Flatseal |
+
+## PC games, GTA and classic action games
+
+The gaming bundle installs launchers, emulators and open-source games. Steam, Lutris, Heroic and Bottles help install games from stores and manage Windows titles through Proton/Wine.
+
+Kinetix does not include pirated game files, copyrighted GTA data, cracked executables or game assets. For GTA III, Vice City, San Andreas and other commercial games, install a legitimate copy you own through a supported store or configure a legally obtained copy in Lutris/Bottles. Compatibility depends on the game version, GPU driver and Proton/Wine version. Some titles require community fixes.
+
+The installer enables i386 architecture when installing Debian's Steam package on amd64. Suitable graphics drivers and Vulkan support are recommended.
+
+## Wallpaper and icons
+
+The **Change Wallpaper** application opens a native file picker and applies the selected image to the KDE Plasma desktop. The same controls remain available in System Settings → Wallpaper.
+
+The desktop uses real upstream Papirus/Breeze icons and application-provided icons rather than emoji tiles or invented logos. KDE Discover provides the graphical software center.
+
+## Limitations
+
+Bundles are optional and never install automatically. Package availability is checked against Debian Trixie in CI; Flatpak IDs are syntax-checked and resolved by Flathub at install time. CI cannot guarantee every app or game works on every GPU, machine or game release. Commercial games require a valid license and separately obtained game files.

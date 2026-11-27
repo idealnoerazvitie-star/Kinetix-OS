@@ -1,6 +1,6 @@
 # Kinetix OS — a real Linux distribution project
 
-Kinetix OS is a Debian-based Linux distribution project with a clean white-and-blue desktop identity. It aims to combine an approachable desktop, a large software catalog, performance-conscious defaults, and a flexible live ISO workflow for a modern KDE-based system.
+Kinetix OS is a Debian-based Linux distribution project with a familiar KDE Plasma desktop with Papirus/Breeze iconography and native desktop tools. It aims to combine an approachable desktop, a large software catalog, performance-conscious defaults, and a flexible live ISO workflow for a modern KDE-based system.
 
 # Kinetix OS system requirements
 
@@ -35,14 +35,16 @@ Kinetix OS is a Debian-based Linux distribution project with a clean white-and-b
 - `scripts/verify-iso.sh`: validates the ISO boot catalog and boots it in QEMU, checking for a Debian/Kinetix login console.
 - `scripts/hardware-report.sh`: collects a read-only hardware and driver inventory for physical-device testing.
 
-## Neon OS-inspired additions
+## Desktop appearance and customization
 
 The Kinetix project now includes a KDE/Neon-inspired feature layer to blend the polished desktop experience of KDE Neon with a cleaner Kinetix visual identity:
 
 - KDE Plasma desktop, SDDM login, Breeze theme, and Qt/KDE app ecosystem
 - Dolphin file manager, Konsole terminal, Discover software center, System Settings, and KDE Connect
 - Neon-style workflow: fast desktop search, widgets, app launcher, and customization-friendly system tools
-- White/blue Kinetix visual scheme layered on top of Plasma's modern desktop polish
+- Papirus application icons with Breeze window and widget styling; applications retain their real upstream icons
+- Native KDE wallpaper selection through the Kinetix Wallpaper launcher
+- KDE Discover for package and Flatpak software discovery
 - Qt apps such as Okular, KWrite, Gwenview, KDE Spectacle, and KCalc for daily productivity
 
 This keeps the OS approachable and modern while preserving the Kinetix identity.
@@ -96,16 +98,12 @@ The HTML catalog is a discovery/demo UI: its Add buttons only save a local previ
 
 A vulnerability-reporting process is now published in [SECURITY.md](SECURITY.md). Tagged `v*` releases are published automatically only after the ISO build and QEMU boot test pass; the release includes a SHA-256 checksum. This checksum detects accidental corruption but is not a cryptographic publisher signature. Physical hardware, installer, upgrade, licensing, and security qualification remain release gates; see [docs/hardware-testing.md](docs/hardware-testing.md).
 
-## Bundles included in the feature plan
+## Optional software bundles
 
 The project is now planned to include optional bundle definitions. See [docs/app-bundles.md](docs/app-bundles.md) for a practical package list by category.
 
-- Productivity bundle
-- Developer bundle
-- Maker bundle
-- Security learning bundle
-- Gaming bundle
-- Accessibility bundle
+- Productivity, internet, creative, multimedia, developer, maker, science/education, security-learning, gaming, accessibility, and system bundles
+- Steam, Lutris, Heroic Games Launcher, Bottles, RetroArch and classic/open-source games (commercial game files are not bundled)
 
 Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-firstboot.sh](scripts/kinetix-firstboot.sh). Optional app bundles can be listed, previewed, and installed with the `kinetix-bundle` command; see [docs/app-bundles.md](docs/app-bundles.md).
 
@@ -113,4 +111,4 @@ Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-
 
 This is an early distro scaffold, not a fully mature Mint/CachyOS/KDE Neon/Raspberry Pi OS replacement. It currently targets x86-64 only; it has no custom kernel, ARM image, custom installer branding, or full hardware support matrix yet. The repository is best understood as a Debian live-build foundation plus an interactive desktop concept and expanded roadmap.
 
-The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail. The GitHub Actions workflows validate package availability and dependency resolution, check the Debian Live configuration and shell scripts, then build the full hybrid ISO and attempt a QEMU boot to a recognizable login console. The ISO and diagnostic evidence are uploaded as a 14-day artifact. Tagged `v*` releases are published only after that build and boot check pass. A SHA-256 checksum is included, but it is not a publisher signature. These automated checks still do not certify physical hardware, installer partitioning, upgrades, or long-term operation. See [docs/hardware-testing.md](docs/hardware-testing.md) for the manual qualification plan. The promised white/blue Kinetix visual identity (custom wallpaper, SDDM/login theme artwork, Plasma look-and-feel package) remains future work.
+The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail. The GitHub Actions workflows validate package availability and dependency resolution, check the Debian Live configuration and shell scripts, then build the full hybrid ISO and attempt a QEMU boot to a recognizable login console. The ISO and diagnostic evidence are uploaded as a 14-day artifact. Tagged `v*` releases are published only after that build and boot check pass. A SHA-256 checksum is included, but it is not a publisher signature. These automated checks still do not certify physical hardware, installer partitioning, upgrades, or long-term operation. See [docs/hardware-testing.md](docs/hardware-testing.md) for the manual qualification plan. The desktop deliberately uses upstream Papirus/Breeze icons and native KDE settings rather than generated-looking artwork. A custom wallpaper can be selected with the included Change Wallpaper application.

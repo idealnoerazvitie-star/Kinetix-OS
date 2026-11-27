@@ -69,6 +69,9 @@ jobs:
 
       - name: Test optional app bundle installer
         run: bash tests/test-install-bundle.sh
+          bash -n scripts/kinetix-wallpaper.sh
+          bash -n config/includes.chroot/usr/local/bin/kinetix-wallpaper
+          cmp scripts/kinetix-wallpaper.sh config/includes.chroot/usr/local/bin/kinetix-wallpaper
 
   validate-build-configuration:
     runs-on: ubuntu-latest

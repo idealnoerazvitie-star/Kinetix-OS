@@ -10,7 +10,7 @@ locales
 keyboard-configuration
 console-setup
 
-# KDE/Neon-inspired workstation shell and applications
+# KDE Plasma desktop with familiar upstream themes and iconography
 plasma-desktop
 plasma-workspace
 plasma-nm
@@ -21,6 +21,10 @@ sddm-theme-breeze
 breeze
 breeze-gtk-theme
 breeze-icon-theme
+papirus-icon-theme
+breeze-cursor-theme
+plasma-workspace-wallpapers
+kdialog
 qt-style-kvantum
 kde-standard
 kde-baseapps
@@ -72,6 +76,9 @@ inkscape
 thunderbird
 filezilla
 flatpak
+qbittorrent
+chromium
+mpv
 packagekit
 packagekit-tools
 
@@ -93,6 +100,7 @@ git
 vim-tiny
 htop
 fastfetch
+fonts-inter
 libnotify-bin
 gparted
 timeshift
