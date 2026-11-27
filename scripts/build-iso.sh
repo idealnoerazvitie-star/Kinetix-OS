@@ -35,6 +35,11 @@ if [ ! -f auto/config ] || [ ! -f config/package-lists/kinetix.list.chroot ]; th
   exit 1
 fi
 
+ARCH="${KINETIX_ARCH:-amd64}"
+case "$ARCH" in amd64|arm64) ;; *) echo "Unsupported KINETIX_ARCH: $ARCH (supported: amd64, arm64)." >&2; exit 2 ;; esac
+export KINETIX_ARCH="$ARCH"
+echo "Building Kinetix OS for architecture: $ARCH"
+
 echo "Configuring Debian Live..."
 sh auto/config
 
