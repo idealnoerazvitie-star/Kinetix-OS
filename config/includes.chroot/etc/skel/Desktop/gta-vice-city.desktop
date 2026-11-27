@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Grand Theft Auto: Vice City
+Comment=Launch the Steam copy if it is owned and installed
+Exec=steam steam://rungameid/12110
+Icon=steam
+Terminal=false
+Categories=Game;
