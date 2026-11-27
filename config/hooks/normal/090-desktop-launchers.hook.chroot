@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+# KDE desktop entries copied from /etc/skel should be executable/trusted for new users.
+find /etc/skel/Desktop -maxdepth 1 -type f -name '*.desktop' -exec chmod 0755 {} + 2>/dev/null || true
+mkdir -p /etc/skel/Pictures
