@@ -2,6 +2,13 @@ name: Build experimental Kinetix ARM64 ISO
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "auto/config"
+      - "config/**"
+      - "scripts/build-iso.sh"
+      - ".github/workflows/build-arm64.yml"
   push:
     branches: ["main"]
     paths:
