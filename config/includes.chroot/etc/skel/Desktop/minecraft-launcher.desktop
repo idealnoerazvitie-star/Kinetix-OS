@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=Minecraft (Prism Launcher)
-Comment=Install Prism Launcher from the Games bundle first
-Exec=sh -c 'if command -v prismlauncher >/dev/null 2>&1; then prismlauncher; else kdialog --sorry "Install the Games bundle to use Prism Launcher"; fi'
-Icon=applications-games
+Comment=Available after installing the Games bundle and signing in
+Exec=flatpak run org.prismlauncher.PrismLauncher
+Icon=org.prismlauncher.PrismLauncher
 Terminal=false
 Categories=Game;
