@@ -1,114 +1,72 @@
-# Kinetix OS — a real Linux distribution project
+# Kinetix OS — Debian KDE desktop distribution
 
-Kinetix OS is a Debian-based Linux distribution project with a familiar KDE Plasma desktop with Papirus/Breeze iconography and native desktop tools. It aims to combine an approachable desktop, a large software catalog, performance-conscious defaults, and a flexible live ISO workflow for a modern KDE-based system.
+Kinetix OS is an early Debian Trixie-based Linux distribution for amd64 computers. It uses KDE Plasma, Papirus application icons, Breeze styling and real Linux applications.
 
-# Kinetix OS system requirements
+## Desktop
 
-## Minimum recommended hardware
+- KDE Plasma desktop and SDDM login manager
+- Papirus icon theme with Breeze widgets and window styling
+- Dolphin, Konsole, KDE Discover, System Settings and KDE Connect
+- Native Change Wallpaper launcher for selecting and applying desktop images
+- NetworkManager, Bluetooth, PipeWire audio, printing and firmware packages
 
-- Processor: 64-bit x86-64 compatible CPU
-- RAM: 4 GB minimum
-- Storage: 20 GB free disk space
-- Graphics: Vulkan-capable or OpenGL-capable GPU recommended
-- Network: Ethernet or Wi-Fi support
+The desktop uses upstream application icons rather than emoji tiles or generated-looking logos. The HTML page in this repository is a simple project landing page, not a simulated desktop.
 
-## Recommended hardware
+## Software bundles
 
-- Processor: modern 64-bit CPU
-- RAM: 8 GB or more
-- Storage: 40 GB or more
-- Display: 1080p or better
-- Network: internet connection for package updates
+Optional bundles cover productivity, internet, creative work, multimedia, development, electronics/maker projects, science and education, security learning, gaming, accessibility and system maintenance.
 
-## Notes
+List bundles:
 
-- Kinetix OS is currently focused on x86-64 desktop systems.
-- Hardware compatibility will improve as the distro matures.
-- Use a VM to test the ISO before installing on real hardware.
+```sh
+kinetix-bundle --list
+```
 
-## What this repository contains now
+Preview a bundle:
 
-- `index.html`: an interactive, browser-only desktop and app-catalog mockup.
-- `auto/config` and `config/`: a Debian Live build configuration for an **amd64 x86-64 live/install image**, including a Debian installer and a curated package set.
-- `config/includes.chroot/`: files copied verbatim into the built system — the first-boot script at `/usr/local/bin/kinetix-firstboot.sh` and an XDG autostart entry (via `/etc/skel`) that runs it once per new user.
-- `scripts/build-iso.sh`: a helper to build the configured ISO on Debian.
-- `scripts/verify-iso.sh`: validates the ISO boot catalog and boots it in QEMU, checking for a Debian/Kinetix login console.
-- `scripts/hardware-report.sh`: collects a read-only hardware and driver inventory for physical-device testing.
+```sh
+kinetix-bundle --dry-run gaming
+```
 
-## Desktop appearance and customization
+Install a bundle:
 
-The Kinetix project now includes a KDE/Neon-inspired feature layer to blend the polished desktop experience of KDE Neon with a cleaner Kinetix visual identity:
+```sh
+sudo kinetix-bundle gaming
+```
 
-- KDE Plasma desktop, SDDM login, Breeze theme, and Qt/KDE app ecosystem
-- Dolphin file manager, Konsole terminal, Discover software center, System Settings, and KDE Connect
-- Neon-style workflow: fast desktop search, widgets, app launcher, and customization-friendly system tools
-- Papirus application icons with Breeze window and widget styling; applications retain their real upstream icons
-- Native KDE wallpaper selection through the Kinetix Wallpaper launcher
-- KDE Discover for package and Flatpak software discovery
-- Qt apps such as Okular, KWrite, Gwenview, KDE Spectacle, and KCalc for daily productivity
+The installer supports Debian packages and Flatpak applications. Flathub is added only when a user explicitly installs a bundle that contains Flatpak apps.
 
-This keeps the OS approachable and modern while preserving the Kinetix identity.
+## Games
 
-## Roadmap and planned feature expansion
+The gaming bundle includes Steam, Lutris, RetroArch, DOSBox, ScummVM, OpenTTD, SuperTuxKart, 0 A.D., Warzone 2100, Xonotic and other open-source games. Heroic Games Launcher, Bottles and additional emulators are available through Flathub.
 
-This repository now includes a practical expansion plan for turning the project into a more complete Linux desktop distribution. The goal is to merge the current Debian build with real user experience improvements and curated app bundles.
-
-### Planned additions
-
-- A first-boot configuration wizard for language, keyboard, user setup, and initial system review
-- Kinetix KDE branding with a custom wallpaper, login screen, app-launcher layout, and desktop defaults
-- Multi-profile app bundles for productivity, development, maker work, security learning, gaming, and accessibility
-- Terminal and shell experience improvements for Konsole, including aliases, prompt configuration, and developer tools
-- Better package management and Flatpak integration for a polished software installation flow
-- Release validation steps including boot tests, smoke checks, and checksum generation
-
-For the full project roadmap, see [docs/roadmap.md](docs/roadmap.md).
+Commercial games such as Grand Theft Auto require a legitimate copy and their own game files. Kinetix does not distribute copyrighted game data, cracked executables or pirated copies. Compatibility depends on the game, GPU drivers and Proton/Wine version.
 
 ## Build a bootable ISO
 
-On a Debian system or Debian VM, install the build tools:
+On Debian, install build tools:
 
 ```sh
 sudo apt update
 sudo apt install live-build debootstrap xorriso squashfs-tools
 ```
 
-Clone this repository and run:
+Then run:
 
 ```sh
 sudo ./scripts/build-iso.sh
 ```
 
-The build downloads packages from the configured Debian repositories and can take a while. The resulting hybrid ISO should appear in the repository directory. To verify it locally, install `qemu-system-x86`, `qemu-utils`, `xorriso`, `socat`, `procps`, `python3-pil`, and `tesseract-ocr`, then run `bash scripts/verify-iso.sh path/to/image.iso`. The `Build and boot-test Kinetix ISO` GitHub Actions workflow performs the full build, QEMU boot smoke test, and SHA-256 generation on pull requests and pushes to `main`; it also supports manual runs. The resulting ISO and diagnostic evidence are uploaded as a workflow artifact for 14 days.
+The build downloads packages from Debian repositories and may take a while. To test an ISO locally, install qemu-system-x86, qemu-utils, xorriso, socat, procps, python3-pil and tesseract-ocr, then run:
 
-## Included distro building blocks
+```sh
+bash scripts/verify-iso.sh path/to/image.iso
+```
 
-- **Desktop:** KDE Plasma with Neon-style polish, SDDM, and Debian's live installer.
-- **Daily use:** Firefox ESR, Thunderbird, LibreOffice, VLC, GIMP, Inkscape, Dolphin, Konsole, Discover, and FileZilla.
-- **System integration:** NetworkManager, Bluetooth, PipeWire audio, printing, firmware packages, and fwupd.
-- **Software management:** Debian packages through APT/Synaptic, plus Flatpak through KDE Discover's Flatpak backend. Flatpak remotes and trust policy still need to be configured and reviewed before broader end-user use.
-- **Maker and education:** Thonny, GPIO Zero, and Arduino. (Scratch is intentionally left out — the `scratch` package was dropped from Debian's repositories and is not installable on trixie; see [docs/app-bundles.md](docs/app-bundles.md) for a note on alternatives.)
-- **Accessibility and maintenance:** Orca, Onboard, Timeshift, GParted, and common command-line utilities.
+GitHub Actions validates package availability, dependencies, shell scripts and Debian Live configuration, then builds the ISO and attempts a BIOS-mode QEMU boot test. Workflow artifacts are retained for 14 days.
 
-This borrows general ideas from other Linux distributions; it does not bundle their proprietary assets or claim to reproduce their entire feature sets. In particular, CachyOS-specific kernel optimization and branding are intentionally not treated as a direct upstream dependency for this repo.
+## Hardware and release status
 
-## App catalog and security
+Kinetix is an early project, not yet a fully qualified replacement for Linux Mint or Zorin OS. It currently targets x86-64 only. Physical hardware, installer partitioning, Wi-Fi, Bluetooth, audio, graphics acceleration, suspend/resume and game compatibility still require manual testing. SHA-256 checksums detect accidental corruption but are not publisher signatures.
 
-The HTML catalog is a discovery/demo UI: its Add buttons only save a local preview state. The distro image includes normal Debian software management, but this project does **not** yet provide its own packaged app-store ecosystem or cryptographically signed ISO releases.
-
-A vulnerability-reporting process is now published in [SECURITY.md](SECURITY.md). Tagged `v*` releases are published automatically only after the ISO build and QEMU boot test pass; the release includes a SHA-256 checksum. This checksum detects accidental corruption but is not a cryptographic publisher signature. Physical hardware, installer, upgrade, licensing, and security qualification remain release gates; see [docs/hardware-testing.md](docs/hardware-testing.md).
-
-## Optional software bundles
-
-The project is now planned to include optional bundle definitions. See [docs/app-bundles.md](docs/app-bundles.md) for a practical package list by category.
-
-- Productivity, internet, creative, multimedia, developer, maker, science/education, security-learning, gaming, accessibility, and system bundles
-- Steam, Lutris, Heroic Games Launcher, Bottles, RetroArch and classic/open-source games (commercial game files are not bundled)
-
-Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-firstboot.sh](scripts/kinetix-firstboot.sh). Optional app bundles can be listed, previewed, and installed with the `kinetix-bundle` command; see [docs/app-bundles.md](docs/app-bundles.md).
-
-## Current limitations
-
-This is an early distro scaffold, not a fully mature Mint/CachyOS/KDE Neon/Raspberry Pi OS replacement. It currently targets x86-64 only; it has no custom kernel, ARM image, custom installer branding, or full hardware support matrix yet. The repository is best understood as a Debian live-build foundation plus an interactive desktop concept and expanded roadmap.
-
-The package lists were cross-checked against Debian trixie's current package set (see [docs/roadmap.md](docs/roadmap.md#package-list-audit)) to remove entries that would make `apt`/`lb build` fail. The GitHub Actions workflows validate package availability and dependency resolution, check the Debian Live configuration and shell scripts, then build the full hybrid ISO and attempt a QEMU boot to a recognizable login console. The ISO and diagnostic evidence are uploaded as a 14-day artifact. Tagged `v*` releases are published only after that build and boot check pass. A SHA-256 checksum is included, but it is not a publisher signature. These automated checks still do not certify physical hardware, installer partitioning, upgrades, or long-term operation. See [docs/hardware-testing.md](docs/hardware-testing.md) for the manual qualification plan. The desktop deliberately uses upstream Papirus/Breeze icons and native KDE settings rather than generated-looking artwork. A custom wallpaper can be selected with the included Change Wallpaper application.
+See docs/app-bundles.md for bundle details, docs/roadmap.md for planned work and docs/hardware-testing.md for the physical-device test plan.
