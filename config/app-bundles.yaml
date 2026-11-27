@@ -24,7 +24,8 @@ bundles:
     packages: [thonny, python3-gpiozero, arduino, kicad, fritzing, openscad, freecad, gparted]
   science-education:
     description: "Astronomy, mathematics, learning and research"
-    packages: [stellarium, kstars, gcompris-qt, anki, octave, geogebra]
+    packages: [stellarium, kstars, gcompris-qt, octave, geogebra]
+    flatpak: [net.ankiweb.Anki]
   security-learning:
     description: "Defensive security, networking and digital forensics"
     packages: [nmap, wireshark, tcpdump, aircrack-ng, john, hashcat, binwalk, gdb, netcat-openbsd, testdisk, steghide, sqlmap, lynis, gufw]
