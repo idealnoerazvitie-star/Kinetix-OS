@@ -61,6 +61,7 @@ firmware-misc-nonfree
 fwupd
 
 # Applications and package management
+python3-yaml
 firefox-esr
 libreoffice-writer
 libreoffice-calc

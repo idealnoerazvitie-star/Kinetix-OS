@@ -107,7 +107,7 @@ The project is now planned to include optional bundle definitions. See [docs/app
 - Gaming bundle
 - Accessibility bundle
 
-Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-firstboot.sh](scripts/kinetix-firstboot.sh).
+Additionally, a first-boot bootstrapping helper is provided in [scripts/kinetix-firstboot.sh](scripts/kinetix-firstboot.sh). Optional app bundles can be listed, previewed, and installed with the `kinetix-bundle` command; see [docs/app-bundles.md](docs/app-bundles.md).
 
 ## Current limitations
 

@@ -129,6 +129,26 @@ Where Debian package availability is limited or the app is better served via Fla
 - Blender
 - Krita
 
-## Deployment note
+## Installing an optional bundle
 
-These bundles are package suggestions, not an implemented graphical installer. They are not forced onto every user; the default Kinetix install remains a separate, lighter package set. Dependency checks in CI simulate installation of each bundle against Debian Trixie.
+The repository includes a command-line installer for these optional bundles. The base image includes `python3-yaml`, and the bundle definition is installed at `/usr/share/kinetix/app-bundles.yaml`.
+
+List available bundles:
+
+```sh
+kinetix-bundle --list
+```
+
+Preview an installation without changing the system:
+
+```sh
+kinetix-bundle --dry-run developer
+```
+
+Install a bundle:
+
+```sh
+sudo kinetix-bundle productivity
+```
+
+The installer validates the selected bundle and package names, updates APT metadata, and installs only that bundle with `--no-install-recommends`. Bundles are optional; the default Kinetix image remains a separate, lighter package set. This is a command-line installer, not yet a graphical app-store integration. CI tests the parser and dry-run path and simulates package dependency resolution against Debian Trixie.
