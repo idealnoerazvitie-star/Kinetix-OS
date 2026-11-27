@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Discord
-Exec=discord
-Icon=discord
+Exec=flatpak run com.discordapp.Discord
+Icon=com.discordapp.Discord
 Terminal=false
 Categories=Network;InstantMessaging;
