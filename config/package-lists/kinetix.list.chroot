@@ -13,6 +13,7 @@ console-setup
 # KDE Plasma desktop with familiar upstream themes and iconography
 plasma-desktop
 plasma-workspace
+plasma-widgets-addons
 plasma-nm
 plasma-pa
 powerdevil
