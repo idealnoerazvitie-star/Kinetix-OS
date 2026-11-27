@@ -34,6 +34,12 @@ Productivity, internet, creative work, multimedia, developer tools, maker/electr
 - Show package source, license, size and maintainer information.
 - Preserve KDE Discover as the normal APT/Flatpak software center.
 
+### Multi-architecture and virtual machines
+- Experimental ARM64 ISO build workflow on a native ARM64 runner.
+- Add UEFI/QEMU ARM64 boot validation before calling the image usable on Apple Silicon VMs.
+- Add device-specific Raspberry Pi images only with model-specific firmware, device trees and boot tests.
+- Produce preinstalled VirtualBox/VMware/UTM disk images only after the installer and first-boot flow are validated.
+
 ### Release quality
 - Test on physical Intel, AMD and NVIDIA hardware.
 - Verify installer partitioning, Wi-Fi, Bluetooth, audio, suspend/resume and GPU acceleration.
