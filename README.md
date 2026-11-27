@@ -7,6 +7,8 @@ Kinetix OS is an early Debian Trixie-based Linux distribution for amd64 computer
 - KDE Plasma desktop and SDDM login manager
 - Papirus icon theme with Breeze widgets and window styling
 - Dolphin, Konsole, KDE Discover, System Settings and KDE Connect
+- Reference-inspired Plasma layout: top system/menu panel, bottom application dock, desktop shortcuts and virtual desktop pager
+- Original blue Kinetix alpine-lake wallpaper enabled by default
 - Native Change Wallpaper launcher for selecting and applying desktop images
 - NetworkManager, Bluetooth, PipeWire audio, printing and firmware packages
 
@@ -40,7 +42,7 @@ The installer supports Debian packages and Flatpak applications. Flathub is adde
 
 The gaming bundle includes Steam, Lutris, RetroArch, DOSBox, ScummVM, OpenTTD, SuperTuxKart, 0 A.D., Warzone 2100, Xonotic and other open-source games. Heroic Games Launcher, Bottles and additional emulators are available through Flathub.
 
-Commercial games such as Grand Theft Auto require a legitimate copy and their own game files. Kinetix does not distribute copyrighted game data, cracked executables or pirated copies. Compatibility depends on the game, GPU drivers and Proton/Wine version.
+Desktop shortcuts for GTA III, Vice City and San Andreas launch their Steam entries when the user owns and has installed those games. Minecraft is launched through Prism Launcher after installing the Games bundle. Commercial games such as Grand Theft Auto require a legitimate copy and their own game files. The shortcuts do not bundle or bypass game licensing. Kinetix does not distribute copyrighted game data, cracked executables or pirated copies. Compatibility depends on the game, GPU drivers and Proton/Wine version.
 
 ## Build a bootable ISO
 
