@@ -9,7 +9,7 @@ if [ "$(id -u)" -ne 0 ]; then
     echo "Run as root, or install sudo and run: sudo $0" >&2
     exit 1
   fi
-  exec sudo "$0" "$@"
+  exec sudo env KINETIX_ARCH="${KINETIX_ARCH:-amd64}" "$0" "$@"
 fi
 
 if [ ! -r /etc/debian_version ]; then
