@@ -9,7 +9,7 @@ if [ "$(id -u)" -ne 0 ]; then
     echo "Run as root, or install sudo and run: sudo $0" >&2
     exit 1
   fi
-  exec sudo "$0" "$@"
+  exec sudo env KINETIX_ARCH="${KINETIX_ARCH:-amd64}" "$0" "$@"
 fi
 
 if [ ! -r /etc/debian_version ]; then
@@ -34,6 +34,11 @@ if [ ! -f auto/config ] || [ ! -f config/package-lists/kinetix.list.chroot ]; th
   echo "Repository build configuration is incomplete; run this script from a complete Kinetix OS checkout." >&2
   exit 1
 fi
+
+ARCH="${KINETIX_ARCH:-amd64}"
+case "$ARCH" in amd64|arm64) ;; *) echo "Unsupported KINETIX_ARCH: $ARCH (supported: amd64, arm64)." >&2; exit 2 ;; esac
+export KINETIX_ARCH="$ARCH"
+echo "Building Kinetix OS for architecture: $ARCH"
 
 echo "Configuring Debian Live..."
 sh auto/config

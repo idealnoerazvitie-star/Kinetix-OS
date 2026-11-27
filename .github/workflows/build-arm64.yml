@@ -1,0 +1,60 @@
+name: Build experimental Kinetix ARM64 ISO
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "auto/config"
+      - "config/**"
+      - "scripts/build-iso.sh"
+      - ".github/workflows/build-arm64.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kinetix-arm64-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-arm64:
+    name: Build ARM64 image (experimental)
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Install Debian Live build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            live-build debootstrap xorriso squashfs-tools ca-certificates file
+
+      - name: Build native ARM64 ISO
+        env:
+          KINETIX_ARCH: arm64
+        run: |
+          set -Eeuo pipefail
+          sudo env KINETIX_ARCH=arm64 ./scripts/build-iso.sh 2>&1 | tee arm64-build.log
+          ISO="$(find . -maxdepth 2 -type f -name '*.iso' -not -path './dist/*' -print -quit)"
+          if [[ -z "$ISO" ]]; then
+            echo "::error::No ARM64 ISO was produced."
+            exit 1
+          fi
+          mkdir -p dist
+          cp "$ISO" dist/Kinetix-OS-arm64-experimental.iso
+          file dist/Kinetix-OS-arm64-experimental.iso | tee dist/iso-file-type.txt
+          sha256sum dist/Kinetix-OS-arm64-experimental.iso > dist/SHA256SUMS
+          printf '%s\n' "EXPERIMENTAL: build artifact only; not yet hardware- or boot-verified." > dist/STATUS.txt
+          cp arm64-build.log dist/
+
+      - name: Upload experimental ARM64 artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kinetix-os-arm64-experimental-${{ github.run_number }}
+          path: dist/
+          if-no-files-found: warn
+          retention-days: 14
