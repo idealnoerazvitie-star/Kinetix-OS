@@ -7,6 +7,7 @@ lb config \
   --architectures "${KINETIX_ARCH:-amd64}" \
   --linux-flavours "${KINETIX_ARCH:-amd64}" \
   --linux-packages linux-image \
+  --security false \
   --binary-image iso-hybrid \
   --archive-areas "main contrib non-free non-free-firmware" \
   --debian-installer live \
