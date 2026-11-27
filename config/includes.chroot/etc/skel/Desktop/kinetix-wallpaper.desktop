@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Change Wallpaper
+Name[ru]=Изменить обои
+Exec=kinetix-wallpaper
+Icon=preferences-desktop-wallpaper
+Terminal=false
+Categories=Settings;DesktopSettings;
