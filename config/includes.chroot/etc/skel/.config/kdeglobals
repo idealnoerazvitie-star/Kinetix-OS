@@ -1,0 +1,10 @@
+[General]
+ColorScheme=BreezeLight
+Name=Kinetix
+
+[Icons]
+Theme=Papirus
+
+[KDE]
+LookAndFeelPackage=org.kde.breeze.desktop
+widgetStyle=Breeze

@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# Mark the pre-seeded desktop launchers as trusted for this new account.
+if [ -d "$HOME/Desktop" ]; then
+  find "$HOME/Desktop" -maxdepth 1 -type f -name '*.desktop' -exec chmod 0755 {} + 2>/dev/null || true
+fi
+rm -f "$HOME/.config/autostart/kinetix-first-login.desktop"

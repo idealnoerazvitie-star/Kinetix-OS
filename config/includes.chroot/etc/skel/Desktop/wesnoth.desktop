@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Battle for Wesnoth
+Exec=wesnoth
+Icon=wesnoth
+Terminal=false
+Categories=Game;StrategyGame;

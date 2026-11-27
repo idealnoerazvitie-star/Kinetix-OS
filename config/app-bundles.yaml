@@ -1,71 +1,41 @@
 bundles:
   productivity:
-    description: "Daily desktop work and general productivity"
-    packages:
-      - firefox-esr
-      - thunderbird
-      - libreoffice-writer
-      - libreoffice-calc
-      - libreoffice-impress
-      - vlc
-      - okular
-      - gimp
-      - inkscape
-      - filezilla
-      - keepassxc
+    description: "Office, PDF, notes, password management and file sync"
+    packages: [libreoffice-writer, libreoffice-calc, libreoffice-impress, thunderbird, okular, keepassxc, syncthing, korganizer, filezilla]
+    flatpak: [md.obsidian.Obsidian, org.zotero.Zotero, com.bitwarden.desktop, com.onlyoffice.desktopeditors, com.nextcloud.desktopclient.nextcloud]
+  internet:
+    description: "Browsers, messaging, remote access and downloads"
+    packages: [chromium, firefox-esr, thunderbird, qbittorrent, remmina, transmission-qt]
+    flatpak: [org.telegram.desktop, org.signal.Signal, com.discordapp.Discord, im.riot.Riot]
+  creative:
+    description: "Photo editing, illustration, 3D, CAD and publishing"
+    packages: [gimp, inkscape, krita, blender, darktable, scribus, freecad, rawtherapee]
+    flatpak: [org.kde.kdenlive, com.obsproject.Studio, org.audacityteam.Audacity]
+  multimedia:
+    description: "Video playback, recording, editing and audio production"
+    packages: [vlc, mpv, obs-studio, audacity, kdenlive, handbrake, ardour, lmms, mixxx, subtitlecomposer]
+    flatpak: [org.videolan.VLC, com.spotify.Client]
   developer:
-    description: "Programming and command-line tools"
-    packages:
-      - git
-      - build-essential
-      - curl
-      - wget
-      - jq
-      - ripgrep
-      - fd-find
-      - htop
-      - vim
-      - neovim
-      - python3
-      - python3-pip
-      - nodejs
-      - npm
-      - docker.io
-      - docker-compose
-      - gdb
+    description: "Programming languages, IDEs, containers and debugging"
+    packages: [git, build-essential, cmake, ninja-build, clang, gdb, geany, neovim, python3, python3-pip, python3-venv, nodejs, npm, golang, rustc, cargo, default-jdk, docker.io, podman, sqlitebrowser, meld]
+    flatpak: [com.visualstudio.code, com.jetbrains.IntelliJ-IDEA-Community]
   maker:
-    description: "Electronics, coding, and learning"
-    packages:
-      - thonny
-      - python3-gpiozero
-      - arduino
-      - gparted
+    description: "Electronics, microcontrollers, CAD and 3D printing"
+    packages: [thonny, python3-gpiozero, arduino, kicad, fritzing, openscad, freecad, gparted]
+  science-education:
+    description: "Astronomy, mathematics, learning and research"
+    packages: [stellarium, kstars, gcompris-qt, anki, octave, geogebra]
   security-learning:
-    description: "Network and security education"
-    packages:
-      - nmap
-      - wireshark
-      - tcpdump
-      - aircrack-ng
-      - john
-      - hashcat
-      - binwalk
-      - gdb
-      - testdisk
-      - sqlmap
+    description: "Defensive security, networking and digital forensics"
+    packages: [nmap, wireshark, tcpdump, aircrack-ng, john, hashcat, binwalk, gdb, netcat-openbsd, testdisk, steghide, sqlmap, lynis, gufw]
   gaming:
-    description: "Games and entertainment"
-    packages:
-      - steam-installer
-      - lutris
-      - retroarch
-      - wine
-      - gamemode
+    description: "Steam, classic PC games, emulators and community games"
+    packages: [steam-installer, lutris, retroarch, wine, gamemode, mangohud, dosbox, scummvm, openttd, supertuxkart, 0ad, warzone2100, xonotic, hedgewars, wesnoth]
+    flatpak: [com.heroicgameslauncher.hgl, com.usebottles.bottles, org.DolphinEmu.dolphin-emu, net.pcsx2.PCSX2, org.prismlauncher.PrismLauncher]
   accessibility:
-    description: "Assistive technology and accessibility"
-    packages:
-      - orca
-      - onboard
-      - kdeaccessibility
-      - espeak-ng
-      - brltty
+    description: "Screen reading, on-screen keyboard, speech and assistive tools"
+    packages: [orca, onboard, kdeaccessibility, espeak-ng, brltty, speech-dispatcher, kmag, kmousetool]
+  system:
+    description: "Backups, storage, cleanup, monitoring and administration"
+    packages: [timeshift, bleachbit, gparted, htop, fastfetch, p7zip-full, rsync, synaptic, cpu-x, hardinfo, baobab, gufw]
+    flatpak: [com.github.tchx84.Flatseal]

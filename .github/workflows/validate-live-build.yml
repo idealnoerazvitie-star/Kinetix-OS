@@ -67,6 +67,12 @@ jobs:
       - name: Simulate base and optional bundle installations
         run: bash tests/test-package-dependencies.sh
 
+      - name: Test optional app bundle installer
+        run: bash tests/test-install-bundle.sh
+          bash -n scripts/kinetix-wallpaper.sh
+          bash -n config/includes.chroot/usr/local/bin/kinetix-wallpaper
+          cmp scripts/kinetix-wallpaper.sh config/includes.chroot/usr/local/bin/kinetix-wallpaper
+
   validate-build-configuration:
     runs-on: ubuntu-latest
     container: debian:trixie
@@ -89,8 +95,11 @@ jobs:
           sh -n auto/config
           sh -n scripts/build-iso.sh
           bash -n scripts/kinetix-firstboot.sh
+          bash -n scripts/install-bundle.sh
+          bash -n config/includes.chroot/usr/local/bin/kinetix-bundle
           bash -n config/includes.chroot/usr/local/bin/kinetix-firstboot.sh
           cmp scripts/kinetix-firstboot.sh config/includes.chroot/usr/local/bin/kinetix-firstboot.sh
+          cmp scripts/install-bundle.sh config/includes.chroot/usr/local/bin/kinetix-bundle
           bash tests/test-firstboot.sh
           bash -n tests/test-package-dependencies.sh
           bash tests/test-iso-scripts.sh

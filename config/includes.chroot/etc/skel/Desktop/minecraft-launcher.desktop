@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Minecraft (Prism Launcher)
+Comment=Available after installing the Games bundle and signing in
+Exec=flatpak run org.prismlauncher.PrismLauncher
+Icon=org.prismlauncher.PrismLauncher
+Terminal=false
+Categories=Game;

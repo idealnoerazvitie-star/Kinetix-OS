@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Change Wallpaper
+Name[ru]=Изменить обои
+GenericName=Desktop wallpaper settings
+Comment=Choose an image for your KDE Plasma desktop
+Comment[ru]=Выбрать изображение для рабочего стола KDE Plasma
+Exec=kinetix-wallpaper
+Icon=preferences-desktop-wallpaper
+Terminal=false
+Categories=Settings;DesktopSettings;

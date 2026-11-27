@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Grand Theft Auto III
+Comment=Launch the Steam copy if it is owned and installed
+Exec=steam steam://rungameid/12100
+Icon=steam
+Terminal=false
+Categories=Game;

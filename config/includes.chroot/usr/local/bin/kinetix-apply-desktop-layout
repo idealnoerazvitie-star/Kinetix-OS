@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# Apply the Kinetix desktop layout to the actual live-session user. Debian live
+# images create the live account before /etc/skel is consulted, so a skel-only
+# Plasma layout is not sufficient.
+home="${HOME:?HOME is not set}"
+config="${XDG_CONFIG_HOME:-$home/.config}"
+state="$config/kinetix/desktop-layout-v1.applied"
+source_config="/usr/share/kinetix/plasma-org.kde.plasma.desktop-appletsrc"
+source_desktop="/etc/skel/Desktop"
+
+[[ -f "$source_config" ]] || exit 0
+[[ -e "$state" ]] && exit 0
+mkdir -p "$config/kinetix" "$home/Desktop"
+
+# Preserve the existing Plasma setup before applying the Kinetix layout.
+if [[ -f "$config/plasma-org.kde.plasma.desktop-appletsrc" ]]; then
+  cp -n "$config/plasma-org.kde.plasma.desktop-appletsrc" "$config/kinetix/plasma-before-kinetix-layout.bak" || true
+fi
+install -m 0644 "$source_config" "$config/plasma-org.kde.plasma.desktop-appletsrc"
+
+# Bring the desktop launchers to the already-created live user's Desktop.
+if [[ -d "$source_desktop" ]]; then
+  find "$source_desktop" -maxdepth 1 -type f -name '*.desktop' -exec cp -n -t "$home/Desktop" {} + 2>/dev/null || true
+fi
+find "$home/Desktop" -maxdepth 1 -type f -name '*.desktop' -exec chmod 0755 {} + 2>/dev/null || true
+
+# Keep GTK apps on the same icon set as Plasma.
+mkdir -p "$config/gtk-3.0"
+cat > "$config/gtk-3.0/settings.ini" <<'EOF'
+[Settings]
+gtk-theme-name=Breeze
+gtk-icon-theme-name=Papirus
+gtk-font-name=Inter 10
+gtk-cursor-theme-name=Breeze
+EOF
+
+touch "$state"
+
+# Plasma has already started by the time XDG autostart runs. Restart its shell
+# once so the panel and desktop containment config is actually reloaded.
+if command -v kquitapp6 >/dev/null 2>&1 && command -v kstart >/dev/null 2>&1; then
+  (sleep 2; kquitapp6 plasmashell >/dev/null 2>&1 || true; sleep 1; kstart plasmashell >/dev/null 2>&1 || true) </dev/null >/dev/null 2>&1 &
+elif command -v kquitapp5 >/dev/null 2>&1 && command -v kstart5 >/dev/null 2>&1; then
+  (sleep 2; kquitapp5 plasmashell >/dev/null 2>&1 || true; sleep 1; kstart5 plasmashell >/dev/null 2>&1 || true) </dev/null >/dev/null 2>&1 &
+fi

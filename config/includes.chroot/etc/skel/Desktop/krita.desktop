@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Krita
+Exec=krita %U
+Icon=krita
+Terminal=false
+Categories=Graphics;

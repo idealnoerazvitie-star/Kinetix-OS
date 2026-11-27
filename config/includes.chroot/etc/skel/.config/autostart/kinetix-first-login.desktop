@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Kinetix first login setup
+Exec=/bin/sh /usr/local/bin/kinetix-first-login
+NoDisplay=true
+X-KDE-autostart-phase=1
