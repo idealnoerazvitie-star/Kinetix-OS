@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Kinetix desktop layout setup
+Comment=Apply the Kinetix panels, dock, icons and desktop shortcuts to the live user
+Exec=/usr/local/bin/kinetix-apply-desktop-layout
+OnlyShowIn=KDE;
+NoDisplay=true
+X-KDE-autostart-phase=1
