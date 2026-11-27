@@ -18,7 +18,7 @@ The installer validates Debian package names and Flatpak IDs. Debian packages co
 
 | Category | Examples |
 |---|---|
-| Productivity | LibreOffice, Thunderbird, Okular, KeePassXC, Nextcloud, Syncthing, Obsidian, Zotero |
+| Productivity | LibreOffice, Thunderbird, Okular, KeePassXC, Syncthing, Nextcloud Desktop, Obsidian, Zotero |
 | Internet | Firefox ESR, Chromium, qBittorrent, Remmina, Telegram, Signal, Discord |
 | Creative | GIMP, Inkscape, Krita, Blender, Darktable, FreeCAD, Kdenlive, OBS |
 | Multimedia | VLC, MPV, Audacity, HandBrake, Ardour, LMMS, Spotify |

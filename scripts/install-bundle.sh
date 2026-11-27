@@ -16,7 +16,9 @@ for name,item in (data.get("bundles") or {}).items(): print(f"{name}\t{item.get(
 PY
 exit 0; fi
 [[ -n "$bundle" ]] || { usage >&2; exit 2; }
-mapfile -t selections < <(python3 - "$CONFIG_FILE" "$bundle" <<'PY'
+selections_file="$(mktemp)"
+trap 'rm -f "$selections_file"' EXIT
+python3 - "$CONFIG_FILE" "$bundle" > "$selections_file" <<'PY'
 import re,sys,yaml
 with open(sys.argv[1],encoding="utf-8") as f: data=yaml.safe_load(f) or {}
 bundles=data.get("bundles",{}); name=sys.argv[2]
@@ -32,7 +34,7 @@ for app in dict.fromkeys(flatpak):
  if not isinstance(app,str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9._-]+",app): raise SystemExit(f"Invalid Flatpak ID: {app!r}")
  print("flatpak:"+app)
 PY
-)
+mapfile -t selections < "$selections_file"
 apt_packages=(); flatpak_apps=()
 for entry in "${selections[@]}"; do case "$entry" in apt:*) apt_packages+=("${entry#apt:}");; flatpak:*) flatpak_apps+=("${entry#flatpak:}");; esac; done
 (("${#apt_packages[@]}"+"${#flatpak_apps[@]}" > 0)) || { echo "Bundle is empty." >&2; exit 1; }

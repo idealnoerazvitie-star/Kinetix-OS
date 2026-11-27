@@ -1,8 +1,8 @@
 bundles:
   productivity:
     description: "Office, PDF, notes, password management and file sync"
-    packages: [libreoffice-writer, libreoffice-calc, libreoffice-impress, thunderbird, okular, keepassxc, nextcloud-client, syncthing, korganizer, filezilla]
-    flatpak: [md.obsidian.Obsidian, org.zotero.Zotero, com.bitwarden.desktop, com.onlyoffice.desktopeditors]
+    packages: [libreoffice-writer, libreoffice-calc, libreoffice-impress, thunderbird, okular, keepassxc, syncthing, korganizer, filezilla]
+    flatpak: [md.obsidian.Obsidian, org.zotero.Zotero, com.bitwarden.desktop, com.onlyoffice.desktopeditors, com.nextcloud.desktopclient.nextcloud]
   internet:
     description: "Browsers, messaging, remote access and downloads"
     packages: [chromium, firefox-esr, thunderbird, qbittorrent, remmina, transmission-qt]
