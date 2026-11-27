@@ -20,7 +20,7 @@ Open the project website to try the interactive Kinetix desktop mock-up in a bro
 
 The real operating system is distributed as a bootable Debian Live ISO. On Windows, macOS and Linux, the recommended safe way to try it is inside VirtualBox, VMware or UTM (depending on host support). See [the cross-platform installation guide](docs/install-on-windows-macos-linux.md).
 
-The current ISO target is **amd64 / x86-64**. Windows and Linux x86-64 hosts can run it in a compatible VM. Intel Macs may run it in a supported VM. Apple Silicon Macs require x86-64 emulation; a native ARM64 Kinetix image is not available yet. Kinetix is not a native Windows/macOS installer and cannot replace those systems as an ordinary desktop app. Physical installation is only for compatible PCs and requires a verified installer, backups and careful disk selection.
+The primary release target is **amd64 / x86-64**. An experimental ARM64 ISO build workflow now exists, but its artifact is not yet boot-verified or supported for installation. Windows and Linux x86-64 hosts can run the amd64 ISO in a compatible VM. Intel Macs may run it in a supported VM. Apple Silicon users should wait for the ARM64 image to pass UEFI/QEMU validation before relying on it; see [the ARM64 build status](docs/arm64-build.md). Kinetix is not a native Windows/macOS installer and cannot replace those systems as an ordinary desktop app. Physical installation is only for compatible PCs and requires a verified installer, backups and careful disk selection.
 
 ## Software bundles
 
