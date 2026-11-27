@@ -14,6 +14,14 @@ Kinetix OS is an early Debian Trixie-based Linux distribution for amd64 computer
 
 The desktop uses upstream application icons rather than emoji tiles or generated-looking logos. The HTML page in this repository is a simple project landing page, not a simulated desktop.
 
+## Browser demo and cross-platform use
+
+Open the project website to try the interactive Kinetix desktop mock-up in a browser. The demo lets visitors explore the desktop layout, app menu and sample app windows; it does not run real Linux applications or access the host computer.
+
+The real operating system is distributed as a bootable Debian Live ISO. On Windows, macOS and Linux, the recommended safe way to try it is inside VirtualBox, VMware or UTM (depending on host support). See [the cross-platform installation guide](docs/install-on-windows-macos-linux.md).
+
+The current ISO target is **amd64 / x86-64**. Windows and Linux x86-64 hosts can run it in a compatible VM. Intel Macs may run it in a supported VM. Apple Silicon Macs require x86-64 emulation; a native ARM64 Kinetix image is not available yet. Kinetix is not a native Windows/macOS installer and cannot replace those systems as an ordinary desktop app. Physical installation is only for compatible PCs and requires a verified installer, backups and careful disk selection.
+
 ## Software bundles
 
 Optional bundles cover productivity, internet, creative work, multimedia, development, electronics/maker projects, science and education, security learning, gaming, accessibility and system maintenance.
