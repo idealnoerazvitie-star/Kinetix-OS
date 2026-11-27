@@ -5,9 +5,9 @@ if ! command -v plasma-apply-wallpaperimage >/dev/null 2>&1; then
   echo "KDE Plasma wallpaper tools are not installed." >&2; exit 1
 fi
 if command -v kdialog >/dev/null 2>&1; then
- selected="$(kdialog --title "Choose desktop wallpaper" --getopenfilename "${HOME}/Pictures" "Images (*.png *.jpg *.jpeg *.webp *.bmp *.avif)")" || exit 0
+ selected="$(kdialog --title "Choose desktop wallpaper" --getopenfilename "${HOME}/Pictures" "Images (*.png *.jpg *.jpeg *.webp *.bmp *.avif *.svg)")" || exit 0
 elif command -v zenity >/dev/null 2>&1; then
- selected="$(zenity --file-selection --title="Choose desktop wallpaper" --file-filter="Images | *.png *.jpg *.jpeg *.webp *.bmp *.avif")" || exit 0
+ selected="$(zenity --file-selection --title="Choose desktop wallpaper" --file-filter="Images | *.png *.jpg *.jpeg *.webp *.bmp *.avif *.svg")" || exit 0
 else echo "Install kdialog or zenity to choose an image." >&2; exit 1; fi
 [[ -n "$selected" && -f "$selected" ]] || exit 0
 plasma-apply-wallpaperimage "$selected"
